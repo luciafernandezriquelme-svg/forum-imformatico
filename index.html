@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forum Informático</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="login-screen">
+    <div class="login-box">
+      <h2>Acceso al Foro</h2>
+      <form onsubmit="handleLogin(event)">
+        <input type="text" id="username" placeholder="Nombre de usuario" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <h1>Forum Informático</h1>
+    <p>¡Haz preguntas y responde sobre cualquier tema de informática!</p>
+  </header>
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Computadora" />
+    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80" alt="Código" />
+    <img src="https://mikeelectronica.com/cdn/shop/articles/B-MK_02_2121x.progressive.jpg?v=1607535378" alt="Redes" />
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrrhbQcYKqiI51WfAJNHu5isbaJhrdITURDQ&s" alt="Tecnología" />
+  </div>
+
+  <div class="forum-container">
+    <form class="question-form">
+      <input type="text" placeholder="Tu nombre" required />
+      <input type="text" placeholder="Título de la pregunta" required />
+      <textarea rows="3" placeholder="Escribe tu pregunta aquí..." required></textarea>
+      <button type="submit">Publicar pregunta</button>
+    </form>
+
+    <div class="questions">
+      <div class="question">
+        <h3>¿Cómo instalo Linux en mi PC?</h3>
+        <p><strong>Usuario:</strong> Ana</p>
+        <p>Quiero instalar Linux pero no sé qué versión elegir ni cómo hacerlo. ¿Alguien me ayuda?</p>
+
+        <div class="answers">
+          <div class="answer">
+            <strong>Carlos:</strong> Te recomiendo Ubuntu, es fácil para principiantes. Descarga la ISO y sigue el asistente de instalación.
+          </div>
+        </div>
+
+        <form class="answer-form">
+          <input type="text" placeholder="Tu nombre" required />
+          <textarea rows="2" placeholder="Escribe tu respuesta..." required></textarea>
+          <button type="submit">Responder</button>
+        </form>
+
+        <button class="like answer-button">Me gusta</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <h3>Chat con Usuario</h3>
+      <select id="user-select">
+        <option value="">Selecciona usuario</option>
+        <option value="Ana">Ana</option>
+        <option value="Carlos">Carlos</option>
+        <option value="Lucia">Lucia</option>
+      </select>
+      <button onclick="toggleChat()">Minimizar chat</button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages"></div>
+
+    <form class="chat-form" onsubmit="sendMessage(event)">
+      <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." required />
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
