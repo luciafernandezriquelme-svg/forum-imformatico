@@ -84,4 +84,32 @@ window.addEventListener('DOMContentLoaded', () => {
     loadChatHistory(user);
   }
 });
+.hero {
+  background: linear-gradient(to right, #3498db, #2c3e50);
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
 
+.hero h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  background-color: white;
+  color: #2c3e50;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.cta-button:hover {
+  background-color: #ecf0f1;
+}
