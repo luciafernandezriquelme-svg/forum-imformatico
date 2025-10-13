@@ -1,3 +1,15 @@
+function getAvatar(username) {
+  const avatars = {
+    Ana: '👩‍💻',
+    Luis: '🧑‍🔧',
+    Marta: '👩‍🎨',
+    Pedro: '🧑‍🏫',
+    Lucia: '🦸‍♀️',
+    default: '👤'
+  };
+  return avatars[username] || avatars.default;
+}
+
 function sendMessage(event) {
   event.preventDefault();
   const input = document.getElementById('chat-input');
@@ -22,7 +34,8 @@ function sendMessage(event) {
 
   const div = document.createElement('div');
   div.className = 'chat-message';
-  div.textContent = `${message.from} a ${message.to}: ${message.text}`;
+  const avatar = getAvatar(message.from);
+  div.textContent = `${avatar} ${message.from} a ${message.to}: ${message.text}`;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 
@@ -32,6 +45,7 @@ function sendMessage(event) {
   localStorage.setItem(key, JSON.stringify(history));
 
   input.value = '';
+  loadChatHistory(currentUser); // Recarga el historial actualizado
 }
 
 function toggleChat() {
@@ -58,7 +72,7 @@ function loadChatHistory(currentUser) {
   const userSelect = document.getElementById('user-select');
   const messages = document.getElementById('chat-messages');
 
-  userSelect.addEventListener('change', () => {
+  const updateMessages = () => {
     messages.innerHTML = '';
     const selectedUser = userSelect.value;
     if (!selectedUser) return;
@@ -69,12 +83,17 @@ function loadChatHistory(currentUser) {
     history.forEach(msg => {
       const div = document.createElement('div');
       div.className = 'chat-message';
-      div.textContent = `${msg.from} a ${msg.to}: ${msg.text}`;
+      const avatar = getAvatar(msg.from);
+      div.textContent = `${avatar} ${msg.from} a ${msg.to}: ${msg.text}`;
       messages.appendChild(div);
     });
 
     messages.scrollTop = messages.scrollHeight;
-  });
+  };
+
+  userSelect.removeEventListener('change', updateMessages); // Evita duplicados
+  userSelect.addEventListener('change', updateMessages);
+  updateMessages(); // Carga inicial
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -84,32 +103,4 @@ window.addEventListener('DOMContentLoaded', () => {
     loadChatHistory(user);
   }
 });
-.hero {
-  background: linear-gradient(to right, #3498db, #2c3e50);
-  color: white;
-  text-align: center;
-  padding: 40px 20px;
-}
 
-.hero h2 {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
-.cta-button {
-  background-color: white;
-  color: #2c3e50;
-  padding: 10px 20px;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 5px;
-}
-
-.cta-button:hover {
-  background-color: #ecf0f1;
-}
