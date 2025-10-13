@@ -11,7 +11,6 @@ function addReputation(username, type) {
   if (type === '👍') points = 1;
   if (type === '❤️') points = 2;
   if (type === '🤔') points = 1;
-
   const current = getReputation(username);
   localStorage.setItem(`reputation_${username}`, current + points);
 }
@@ -26,7 +25,6 @@ function sendMessage(event) {
   event.preventDefault();
   const input = document.getElementById('chat-input');
   const user = document.getElementById('user-select').value;
-  const messages = document.getElementById('chat-messages');
   const currentUser = localStorage.getItem('forumUser') || 'Tú';
 
   if (!user) {
@@ -64,8 +62,9 @@ function handleLogin(event) {
     localStorage.setItem('forumUser', username);
     localStorage.setItem(`avatar_${username}`, avatar);
     document.getElementById('login-screen').style.display = 'none';
+    document.querySelector('.chat-container').style.display = 'block';
     loadChatHistory(username);
-    alert(`Bienvenida, ${username}`);
+    updateRanking();
   } else {
     alert('Por favor, completa todos los campos.');
   }
@@ -95,5 +94,20 @@ function loadChatHistory(currentUser) {
       const level = getLevel(rep);
       div.textContent = `${avatar} ${msg.from} (${rep}⭐ - ${level}) a ${msg.to}: ${msg.text}`;
 
-      const reaction
+      const reactionDiv = document.createElement('div');
+      reactionDiv.className = 'reactions';
+      ['👍', '❤️', '🤔'].forEach(icon => {
+        const span = document.createElement('span');
+        span.textContent = icon;
+        span.onclick = () => {
+          msg.reactions[icon] = (msg.reactions[icon] || 0) + 1;
+          addReputation(msg.from, icon);
+          localStorage.setItem(key, JSON.stringify(history));
+          loadChatHistory(currentUser);
+          updateRanking();
+        };
+        reactionDiv.appendChild(span);
+        if (msg.reactions[icon]) {
+          const count = document.createElement('span');
+          count.textContent = ` ${
 
