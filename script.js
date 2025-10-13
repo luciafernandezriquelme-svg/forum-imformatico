@@ -84,7 +84,7 @@ function loadChatHistory(currentUser) {
     const history = JSON.parse(localStorage.getItem(key)) || [];
     const query = searchInput.value.toLowerCase();
 
-    history.forEach((msg, index) => {
+    history.forEach((msg) => {
       if (!msg.text.toLowerCase().includes(query)) return;
 
       const div = document.createElement('div');
@@ -161,3 +161,4 @@ window.addEventListener('DOMContentLoaded', () => {
     updateRanking();
   }
 });
+
