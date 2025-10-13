@@ -21,6 +21,24 @@ function getLevel(points) {
   return 'Novata';
 }
 
+function handleLogin(event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const avatar = document.getElementById('avatar').value;
+
+  if (username && password) {
+    localStorage.setItem('forumUser', username);
+    localStorage.setItem(`avatar_${username}`, avatar);
+    document.getElementById('login-screen').style.display = 'none';
+    document.querySelector('.chat-container').style.display = 'block';
+    loadChatHistory(username);
+    updateRanking();
+  } else {
+    alert('Por favor, completa todos los campos.');
+  }
+}
+
 function sendMessage(event) {
   event.preventDefault();
   const input = document.getElementById('chat-input');
@@ -50,24 +68,6 @@ function sendMessage(event) {
 
   input.value = '';
   loadChatHistory(currentUser);
-}
-
-function handleLogin(event) {
-  event.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const avatar = document.getElementById('avatar').value;
-
-  if (username && password) {
-    localStorage.setItem('forumUser', username);
-    localStorage.setItem(`avatar_${username}`, avatar);
-    document.getElementById('login-screen').style.display = 'none';
-    document.querySelector('.chat-container').style.display = 'block';
-    loadChatHistory(username);
-    updateRanking();
-  } else {
-    alert('Por favor, completa todos los campos.');
-  }
 }
 
 function loadChatHistory(currentUser) {
@@ -109,4 +109,55 @@ function loadChatHistory(currentUser) {
         reactionDiv.appendChild(span);
         if (msg.reactions[icon]) {
           const count = document.createElement('span');
-          count.textContent = ` ${
+          count.textContent = ` ${msg.reactions[icon]}`;
+          reactionDiv.appendChild(count);
+        }
+      });
+
+      div.appendChild(reactionDiv);
+      messages.appendChild(div);
+    });
+
+    messages.scrollTop = messages.scrollHeight;
+  };
+
+  userSelect.removeEventListener('change', updateMessages);
+  userSelect.addEventListener('change', updateMessages);
+  searchInput.removeEventListener('input', updateMessages);
+  searchInput.addEventListener('input', updateMessages);
+  updateMessages();
+}
+
+function updateRanking() {
+  const rankingList = document.getElementById('ranking-list');
+  if (!rankingList) return;
+
+  const users = ['Ana', 'Luis', 'Marta', 'Pedro'];
+  const ranked = users.map(name => ({
+    name,
+    avatar: getAvatar(name),
+    points: getReputation(name),
+    level: getLevel(getReputation(name))
+  })).sort((a, b) => b.points - a.points);
+
+  rankingList.innerHTML = '';
+  ranked.forEach(user => {
+    const li = document.createElement('li');
+    li.textContent = `${user.avatar} ${user.name} (${user.points}⭐ - ${user.level})`;
+    rankingList.appendChild(li);
+  });
+}
+
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const user = localStorage.getItem('forumUser');
+  if (user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.querySelector('.chat-container').style.display = 'block';
+    loadChatHistory(user);
+    updateRanking();
+  }
+});
