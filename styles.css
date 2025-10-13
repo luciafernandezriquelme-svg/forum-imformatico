@@ -99,3 +99,12 @@ body.dark-mode {
   margin-bottom: 10px;
 }
 
+#ranking {
+  margin-top: 20px;
+}
+
+#ranking-list {
+  list-style: none;
+  padding-left: 0;
+}
+
