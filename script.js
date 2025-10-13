@@ -2,6 +2,26 @@ function getAvatar(username) {
   return localStorage.getItem(`avatar_${username}`) || '👤';
 }
 
+function getReputation(username) {
+  return parseInt(localStorage.getItem(`reputation_${username}`)) || 0;
+}
+
+function addReputation(username, type) {
+  let points = 0;
+  if (type === '👍') points = 1;
+  if (type === '❤️') points = 2;
+  if (type === '🤔') points = 1;
+
+  const current = getReputation(username);
+  localStorage.setItem(`reputation_${username}`, current + points);
+}
+
+function getLevel(points) {
+  if (points >= 20) return 'Experta';
+  if (points >= 10) return 'Colaboradora';
+  return 'Novata';
+}
+
 function sendMessage(event) {
   event.preventDefault();
   const input = document.getElementById('chat-input');
@@ -32,11 +52,6 @@ function sendMessage(event) {
 
   input.value = '';
   loadChatHistory(currentUser);
-}
-
-function toggleChat() {
-  const chat = document.querySelector('.chat-container');
-  chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
 }
 
 function handleLogin(event) {
@@ -76,35 +91,9 @@ function loadChatHistory(currentUser) {
       const div = document.createElement('div');
       div.className = 'chat-message ' + (msg.from === currentUser ? 'right' : 'left');
       const avatar = getAvatar(msg.from);
-      div.textContent = `${avatar} ${msg.from} a ${msg.to}: ${msg.text}`;
+      const rep = getReputation(msg.from);
+      const level = getLevel(rep);
+      div.textContent = `${avatar} ${msg.from} (${rep}⭐ - ${level}) a ${msg.to}: ${msg.text}`;
 
-      const reactionDiv = document.createElement('div');
-      reactionDiv.className = 'reactions';
-      ['👍', '❤️', '🤔'].forEach(icon => {
-        const span = document.createElement('span');
-        span.textContent = icon;
-        span.onclick = () => {
-          msg.reactions[icon] = (msg.reactions[icon] || 0) + 1;
-          localStorage.setItem(key, JSON.stringify(history));
-          loadChatHistory(currentUser);
-        };
-        reactionDiv.appendChild(span);
-        if (msg.reactions[icon]) {
-          const count = document.createElement('span');
-          count.textContent = ` ${msg.reactions[icon]}`;
-          reactionDiv.appendChild(count);
-        }
-      });
-
-      div.appendChild(reactionDiv);
-      messages.appendChild(div);
-    });
-
-    messages.scrollTop = messages.scrollHeight;
-  };
-
-  userSelect.removeEventListener('change', updateMessages);
-  userSelect.addEventListener('change', updateMessages);
-  searchInput.removeEventListener('input', updateMessages);
-  searchInput
+      const reaction
 
