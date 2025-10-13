@@ -1,13 +1,5 @@
 function getAvatar(username) {
-  const avatars = {
-    Ana: '👩‍💻',
-    Luis: '🧑‍🔧',
-    Marta: '👩‍🎨',
-    Pedro: '🧑‍🏫',
-    Lucia: '🦸‍♀️',
-    default: '👤'
-  };
-  return avatars[username] || avatars.default;
+  return localStorage.getItem(`avatar_${username}`) || '👤';
 }
 
 function sendMessage(event) {
@@ -29,15 +21,9 @@ function sendMessage(event) {
     from: currentUser,
     to: user,
     text,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    reactions: {}
   };
-
-  const div = document.createElement('div');
-  div.className = 'chat-message';
-  const avatar = getAvatar(message.from);
-  div.textContent = `${avatar} ${message.from} a ${message.to}: ${message.text}`;
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
 
   const key = `chat_${currentUser}_to_${user}`;
   const history = JSON.parse(localStorage.getItem(key)) || [];
@@ -45,7 +31,7 @@ function sendMessage(event) {
   localStorage.setItem(key, JSON.stringify(history));
 
   input.value = '';
-  loadChatHistory(currentUser); // Recarga el historial actualizado
+  loadChatHistory(currentUser);
 }
 
 function toggleChat() {
@@ -57,9 +43,11 @@ function handleLogin(event) {
   event.preventDefault();
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
+  const avatar = document.getElementById('avatar').value;
 
   if (username && password) {
     localStorage.setItem('forumUser', username);
+    localStorage.setItem(`avatar_${username}`, avatar);
     document.getElementById('login-screen').style.display = 'none';
     loadChatHistory(username);
     alert(`Bienvenida, ${username}`);
@@ -71,6 +59,7 @@ function handleLogin(event) {
 function loadChatHistory(currentUser) {
   const userSelect = document.getElementById('user-select');
   const messages = document.getElementById('chat-messages');
+  const searchInput = document.getElementById('search-input');
 
   const updateMessages = () => {
     messages.innerHTML = '';
@@ -79,28 +68,43 @@ function loadChatHistory(currentUser) {
 
     const key = `chat_${currentUser}_to_${selectedUser}`;
     const history = JSON.parse(localStorage.getItem(key)) || [];
+    const query = searchInput.value.toLowerCase();
 
-    history.forEach(msg => {
+    history.forEach((msg, index) => {
+      if (!msg.text.toLowerCase().includes(query)) return;
+
       const div = document.createElement('div');
-      div.className = 'chat-message';
+      div.className = 'chat-message ' + (msg.from === currentUser ? 'right' : 'left');
       const avatar = getAvatar(msg.from);
       div.textContent = `${avatar} ${msg.from} a ${msg.to}: ${msg.text}`;
+
+      const reactionDiv = document.createElement('div');
+      reactionDiv.className = 'reactions';
+      ['👍', '❤️', '🤔'].forEach(icon => {
+        const span = document.createElement('span');
+        span.textContent = icon;
+        span.onclick = () => {
+          msg.reactions[icon] = (msg.reactions[icon] || 0) + 1;
+          localStorage.setItem(key, JSON.stringify(history));
+          loadChatHistory(currentUser);
+        };
+        reactionDiv.appendChild(span);
+        if (msg.reactions[icon]) {
+          const count = document.createElement('span');
+          count.textContent = ` ${msg.reactions[icon]}`;
+          reactionDiv.appendChild(count);
+        }
+      });
+
+      div.appendChild(reactionDiv);
       messages.appendChild(div);
     });
 
     messages.scrollTop = messages.scrollHeight;
   };
 
-  userSelect.removeEventListener('change', updateMessages); // Evita duplicados
+  userSelect.removeEventListener('change', updateMessages);
   userSelect.addEventListener('change', updateMessages);
-  updateMessages(); // Carga inicial
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  const user = localStorage.getItem('forumUser');
-  if (user) {
-    document.getElementById('login-screen').style.display = 'none';
-    loadChatHistory(user);
-  }
-});
+  searchInput.removeEventListener('input', updateMessages);
+  searchInput
 
