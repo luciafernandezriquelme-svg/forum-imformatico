@@ -110,4 +110,3 @@ function loadChatHistory(currentUser) {
         if (msg.reactions[icon]) {
           const count = document.createElement('span');
           count.textContent = ` ${
-
