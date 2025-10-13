@@ -3,63 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Foro Informático</title>
+  <title>Forum Informático</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <button id="theme-toggle">🌙 Cambiar tema</button>
-
-  <section class="hero">
-    <h2>Bienvenida al Foro Informático</h2>
-    <p>Un espacio para compartir conocimientos, resolver dudas y conectar con otros apasionados de la tecnología.</p>
-    <a href="#forum" class="cta-button">Explorar el foro</a>
-  </section>
-
-  <div id="login-screen">
-    <h2>Iniciar sesión</h2>
-    <form onsubmit="handleLogin(event)">
-      <input type="text" id="username" placeholder="Nombre de usuario" required />
-      <input type="password" id="password" placeholder="Contraseña" required />
-      <label for="avatar">Elige tu avatar:</label>
-      <select id="avatar">
-        <option value="👩‍💻">👩‍💻 Programadora</option>
-        <option value="🧑‍🔧">🧑‍🔧 Técnico</option>
-        <option value="👩‍🎨">👩‍🎨 Creativa</option>
-        <option value="🧑‍🏫">🧑‍🏫 Docente</option>
-        <option value="🦸‍♀️">🦸‍♀️ Heroína</option>
-        <option value="👤">👤 Clásico</option>
-      </select>
-      <button type="submit">Entrar</button>
-    </form>
-  </div>
-
-  <div class="chat-container" style="display: none;">
-    <h3>Chat privado</h3>
-    <select id="user-select">
-      <option value="">Selecciona un usuario</option>
-      <option value="Ana">Ana</option>
-      <option value="Luis">Luis</option>
-      <option value="Marta">Marta</option>
-      <option value="Pedro">Pedro</option>
-    </select>
-
-    <input type="text" id="search-input" placeholder="Buscar en el chat..." />
-
-    <div id="chat-messages"></div>
-
-    <form onsubmit="sendMessage(event)">
-      <input type="text" id="chat-input" placeholder="Escribe un mensaje..." required />
-      <button type="submit">Enviar</button>
-    </form>
-
-    <div id="ranking">
-      <h4>🏆 Ranking de reputación</h4>
-      <ul id="ranking-list"></ul>
+  <header class="hero">
+    <h1>Forum Informático</h1>
+    <p>¡Haz preguntas y responde sobre cualquier tema de informática!</p>
+    <div class="categories">
+      <img src="hardware.jpg" alt="Hardware" />
+      <img src="codigo.jpg" alt="Programación" />
+      <img src="ia.jpg" alt="Inteligencia Artificial" />
+      <img src="redes.jpg" alt="Redes" />
     </div>
-  </div>
+  </header>
+
+  <main class="main-content">
+    <section class="question-form">
+      <h2>Publica tu pregunta</h2>
+      <input type="text" placeholder="Tu nombre" id="nombre" />
+      <input type="text" placeholder="Título de la pregunta" id="titulo" />
+      <textarea placeholder="Escribe tu pregunta aquí..." id="pregunta"></textarea>
+      <button onclick="publicarPregunta()">Publicar pregunta</button>
+    </section>
+
+    <section class="preguntas">
+      <h2>📌 Preguntas recientes</h2>
+      <div id="lista-preguntas">
+        <div class="pregunta">
+          <strong>¿Cómo instalo Linux en mi PC?</strong>
+          <p>por Ana</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="chat-sidebar">
+      <h2>💬 Chat con Usuario</h2>
+      <select id="user-select">
+        <option value="">Selecciona usuario</option>
+        <option value="Ana">Ana</option>
+        <option value="Luis">Luis</option>
+        <option value="Marta">Marta</option>
+        <option value="Pedro">Pedro</option>
+      </select>
+      <div id="chat-messages"></div>
+      <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </aside>
+  </main>
+
+  <footer class="ranking">
+    <h2>🏆 Ranking de reputación</h2>
+    <ul id="ranking-list"></ul>
+  </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-
