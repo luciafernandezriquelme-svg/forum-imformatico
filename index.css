@@ -257,4 +257,40 @@ body.light-mode #ranking-list li {
   background-color: #ffd700;
   color: #222;
 }
+/* Avatares */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Tarjetas de preguntas mejoradas */
+.fecha-pregunta {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 5px;
+}
+
+.insignias {
+  margin-top: 10px;
+}
+.insignia {
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.reacciones {
+  margin-top: 10px;
+}
+.reacciones span {
+  cursor: pointer;
+  margin-right: 8px;
+  font-size: 1.2em;
+}
+.reacciones span:hover {
+  transform: scale(1.2);
+}
+
 
