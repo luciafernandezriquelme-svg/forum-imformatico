@@ -123,4 +123,36 @@ document.getElementById("avatar-input").addEventListener("change", function () {
 
 // Ejecutar al cargar la página
 window.addEventListener("DOMContentLoaded", cargarPerfil);
+// Cerrar sesión
+document.getElementById("btn-logout").addEventListener("click", function () {
+  sessionStorage.removeItem("usuario");
+  window.location.href = "index.html"; // O "login.html" si tienes una página de login
+});
+
+// Cambiar tema
+document.getElementById("btn-tema").addEventListener("click", function () {
+  const body = document.body;
+  const esOscuro = body.classList.contains("modo-oscuro");
+
+  if (esOscuro) {
+    body.classList.remove("modo-oscuro");
+    body.classList.add("modo-claro");
+    localStorage.setItem("tema", "claro");
+  } else {
+    body.classList.remove("modo-claro");
+    body.classList.add("modo-oscuro");
+    localStorage.setItem("tema", "oscuro");
+  }
+});
+
+// Aplicar tema guardado al cargar
+window.addEventListener("DOMContentLoaded", () => {
+  const temaGuardado = localStorage.getItem("tema");
+  if (temaGuardado === "oscuro") {
+    document.body.classList.add("modo-oscuro");
+  } else {
+    document.body.classList.add("modo-claro");
+  }
+});
+
 
