@@ -11,6 +11,7 @@
     <h1>Bienvenido al Forum Informático</h1>
     <p>Inicia sesión o regístrate para continuar</p>
 
+    <input type="email" id="correo" placeholder="Correo electrónico" />
     <input type="text" id="usuario" placeholder="Nombre de usuario" />
     <input type="password" id="clave" placeholder="Contraseña" />
 
@@ -21,19 +22,39 @@
   </div>
 
   <script>
-    function iniciarSesion() {
+    function registrarse() {
+      const correo = document.getElementById("correo").value.trim();
       const usuario = document.getElementById("usuario").value.trim();
       const clave = document.getElementById("clave").value.trim();
-      if (usuario && clave) {
-        localStorage.setItem("usuarioActivo", usuario);
-        window.location.href = "index.html";
+
+      if (correo && usuario && clave) {
+        const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+        const existe = usuarios.find(u => u.correo === correo);
+        if (existe) {
+          alert("Este correo ya está registrado.");
+        } else {
+          usuarios.push({ correo, usuario, clave });
+          localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
+          alert("Registro exitoso. Ahora puedes iniciar sesión.");
+        }
       } else {
-        alert("Completa ambos campos para iniciar sesión.");
+        alert("Completa todos los campos para registrarte.");
       }
     }
 
-    function registrarse() {
-      alert("Registro simulado. Puedes usar cualquier nombre y contraseña.");
+    function iniciarSesion() {
+      const correo = document.getElementById("correo").value.trim();
+      const clave = document.getElementById("clave").value.trim();
+
+      const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+      const encontrado = usuarios.find(u => u.correo === correo && u.clave === clave);
+
+      if (encontrado) {
+        localStorage.setItem("usuarioActivo", encontrado.usuario);
+        window.location.href = "index.html";
+      } else {
+        alert("Correo o contraseña incorrectos.");
+      }
     }
   </script>
 </body>
