@@ -1,5 +1,5 @@
 // Redirección si no hay sesión activa
-if (!localStorage.getItem("usuarioActivo")) {
+if (!sessionStorage.getItem("usuario")) {
   window.location.href = "login.html";
 }
 
@@ -13,7 +13,7 @@ function sanitize(text) {
 function publicarPregunta() {
   const titulo = sanitize(document.getElementById("titulo").value.trim());
   const contenido = sanitize(document.getElementById("pregunta").value.trim());
-  const autor = localStorage.getItem("usuarioActivo");
+  const autor = sessionStorage.getItem("usuario");
 
   if (titulo && contenido) {
     const nueva = { autor, titulo, contenido, respuestas: [] };
@@ -51,7 +51,7 @@ function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
 
   div.querySelector(".btn-responder").addEventListener("click", () => {
     const texto = sanitize(div.querySelector(".respuesta-input").value.trim());
-    const usuario = localStorage.getItem("usuarioActivo");
+    const usuario = sessionStorage.getItem("usuario");
     if (!texto) return alert("Escribe una respuesta.");
     const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
     const index = preguntas.findIndex(p => p.titulo === titulo && p.autor === autor);
@@ -179,7 +179,7 @@ function cargarUsuariosEnChat() {
   select.innerHTML = '<option value="">Selecciona usuario</option>';
 
   usuarios.forEach(u => {
-    if (u.usuario !== localStorage.getItem("usuarioActivo")) {
+    if (u.usuario !== sessionStorage.getItem("usuario")) {
       const option = document.createElement("option");
       option.value = u.usuario;
       option.textContent = u.usuario;
@@ -195,7 +195,7 @@ function cargarUsuariosDePreguntas() {
   const select = document.getElementById("user-select");
 
   autores.forEach(nombre => {
-    if (![...select.options].some(opt => opt.value === nombre) && nombre !== localStorage.getItem("usuarioActivo")) {
+    if (![...select.options].some(opt => opt.value === nombre) && nombre !== sessionStorage.getItem("usuario")) {
       const option = document.createElement("option");
       option.value = nombre;
       option.textContent = nombre;
@@ -223,7 +223,7 @@ window.addEventListener("DOMContentLoaded", () => {
   cargarUsuariosEnChat();
   cargarUsuariosDePreguntas();
 
-  const usuario = localStorage.getItem("usuarioActivo");
+  const usuario = sessionStorage.getItem("usuario");
   const bienvenida = document.getElementById("bienvenida");
   const logoutBtn = document.getElementById("btn-logout");
 
@@ -232,5 +232,15 @@ window.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  if (bienvenida && logoutBtn) {
-    bienvenida.text
+  if (bienvenida) {
+    bienvenida.textContent = `Hola, ${usuario}!`;
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    });
+  }
+});
+
