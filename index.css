@@ -1,3 +1,4 @@
+/* Estructura base */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -8,8 +9,16 @@ body {
 
 h1, h2 {
   text-align: center;
+  margin-bottom: 10px;
 }
 
+#bienvenida {
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+/* Botones */
 button {
   padding: 10px;
   margin-top: 10px;
@@ -26,6 +35,7 @@ button:hover {
   opacity: 0.9;
 }
 
+/* Inputs y campos */
 input, textarea, select {
   width: 100%;
   padding: 10px;
@@ -41,6 +51,7 @@ textarea {
   min-height: 80px;
 }
 
+/* Layout de columnas */
 .contenedor {
   display: flex;
   gap: 20px;
@@ -57,6 +68,7 @@ textarea {
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
+/* Preguntas y respuestas */
 #lista-preguntas .pregunta {
   background-color: #1e1e2f;
   padding: 15px;
@@ -71,6 +83,7 @@ textarea {
   margin-top: 5px;
 }
 
+/* Chat */
 #chat-messages {
   background-color: #1e1e2f;
   padding: 10px;
@@ -80,6 +93,7 @@ textarea {
   overflow-y: auto;
 }
 
+/* Emojis */
 #emoji-panel {
   margin-top: 5px;
   padding: 5px;
@@ -97,6 +111,7 @@ textarea {
   transform: scale(1.2);
 }
 
+/* Ranking */
 #ranking-list {
   list-style: none;
   padding: 0;
@@ -141,6 +156,37 @@ body.light-mode #ranking-list li {
 @media (max-width: 900px) {
   .contenedor {
     flex-direction: column;
+  }
+}
+
+/* Animación suave */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ocultar elementos */
+.hidden {
+  display: none !important;
+}
+
+/* Encabezado flexible */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 600px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
