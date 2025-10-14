@@ -50,9 +50,11 @@ function iniciarSesion() {
   const encontrado = usuarios.find(u => u.correo === correo && u.clave === hash(clave));
 
   if (encontrado) {
-    localStorage.setItem("usuarioActivo", encontrado.usuario);
+    // ✅ Guardamos el usuario en sessionStorage para uso temporal
+    sessionStorage.setItem("usuario", encontrado.usuario);
     window.location.href = "index.html";
   } else {
     mostrarMensaje("Correo o contraseña incorrectos.");
   }
 }
+
