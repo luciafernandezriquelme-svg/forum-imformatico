@@ -9,6 +9,7 @@ function sanitize(text) {
   return text.replace(/[&<>"']/g, char => map[char]);
 }
 
+// 🟢 Preguntas
 function publicarPregunta() {
   const nombre = sanitize(document.getElementById("nombre").value.trim());
   const titulo = sanitize(document.getElementById("titulo").value.trim());
@@ -49,22 +50,63 @@ function cargarPreguntasGuardadas() {
   preguntas.forEach(mostrarPregunta);
 }
 
+// 🟢 Chat
 function sendMessage() {
   const usuario = sanitize(document.getElementById("user-select").value);
   const mensaje = sanitize(document.getElementById("chat-input").value.trim());
 
   if (usuario && mensaje) {
-    const chat = document.getElementById("chat-messages");
-    const nuevoMensaje = document.createElement("p");
-    nuevoMensaje.textContent = `${usuario}: ${mensaje}`;
-    nuevoMensaje.classList.add("fade-in");
-    chat.appendChild(nuevoMensaje);
+    const nuevo = { usuario, mensaje };
+    guardarMensaje(nuevo);
+    mostrarMensaje(nuevo);
     document.getElementById("chat-input").value = "";
   } else {
     alert("Selecciona un usuario y escribe un mensaje.");
   }
 }
 
+function guardarMensaje(mensaje) {
+  const mensajes = JSON.parse(localStorage.getItem("mensajesChat")) || [];
+  mensajes.push(mensaje);
+  localStorage.setItem("mensajesChat", JSON.stringify(mensajes));
+}
+
+function mostrarMensaje({ usuario, mensaje }) {
+  const chat = document.getElementById("chat-messages");
+  const nuevoMensaje = document.createElement("p");
+  nuevoMensaje.textContent = `${usuario}: ${mensaje}`;
+  nuevoMensaje.classList.add("fade-in");
+  chat.appendChild(nuevoMensaje);
+}
+
+function cargarMensajesGuardados() {
+  const mensajes = JSON.parse(localStorage.getItem("mensajesChat")) || [];
+  mensajes.forEach(mostrarMensaje);
+}
+
+// 🟢 Reacciones tipo WhatsApp
+document.getElementById("chat-input").addEventListener("focus", () => {
+  document.getElementById("emoji-panel").classList.remove("hidden");
+});
+
+document.getElementById("chat-input").addEventListener("blur", () => {
+  setTimeout(() => {
+    document.getElementById("emoji-panel").classList.add("hidden");
+  }, 300);
+});
+
+document.querySelectorAll("#emoji-panel span").forEach(emoji => {
+  emoji.addEventListener("click", () => {
+    const input = document.getElementById("chat-input");
+    input.value += emoji.textContent;
+    input.focus();
+  });
+});
+
+// 🟢 Inicialización
 document.getElementById("btn-publicar").addEventListener("click", publicarPregunta);
 document.getElementById("btn-enviar").addEventListener("click", sendMessage);
-window.addEventListener("DOMContentLoaded", cargarPreguntasGuardadas);
+window.addEventListener("DOMContentLoaded", () => {
+  cargarPreguntasGuardadas();
+  cargarMensajesGuardados();
+});
