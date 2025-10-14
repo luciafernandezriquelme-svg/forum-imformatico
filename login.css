@@ -48,3 +48,6 @@ body {
   color: white;
   cursor: pointer;
 }
+.login-container input[type="email"] {
+  margin-bottom: 10px;
+}
