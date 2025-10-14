@@ -213,3 +213,8 @@ body {
   margin: 30px 0;
   width: 100%;
 }
+.linea-vertical {
+  width: 2px;
+  background-color: #3498db;
+  margin: 0 10px;
+}
