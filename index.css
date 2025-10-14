@@ -35,8 +35,8 @@ h1, h2 {
 
 /* Botones */
 button {
-  padding: 10px;
-  margin-top: 10px;
+  padding: 10px 20px;
+  margin: 10px;
   background-color: #3498db;
   border: none;
   border-radius: 8px;
@@ -64,6 +64,7 @@ input, textarea, select {
 textarea {
   resize: vertical;
   min-height: 80px;
+  margin-bottom: 10px;
 }
 
 /* Layout principal */
@@ -123,32 +124,6 @@ textarea {
   padding: 8px;
   border-radius: 6px;
   margin-bottom: 5px;
-}
-
-/* Tema claro */
-body.light-mode {
-  background-color: #f4f4f4;
-  color: #222;
-}
-
-body.light-mode input,
-body.light-mode textarea,
-body.light-mode select {
-  background-color: #ffffff;
-  color: #222;
-}
-
-body.light-mode button {
-  background-color: #2c3e50;
-  color: white;
-}
-
-body.light-mode .columna,
-body.light-mode #chat-messages,
-body.light-mode #emoji-panel,
-body.light-mode #ranking-list li {
-  background-color: #e0e0e0;
-  color: #222;
 }
 
 /* Responsive */
@@ -219,6 +194,7 @@ body.light-mode #ranking-list li {
   margin-top: 5px;
 }
 
+/* Interacción */
 .interaccion-pregunta {
   margin-top: 15px;
 }
@@ -253,11 +229,13 @@ body.light-mode #ranking-list li {
 .reacciones {
   margin-top: 10px;
 }
+
 .reacciones span {
   cursor: pointer;
   margin-right: 8px;
   font-size: 1.2em;
 }
+
 .reacciones span:hover {
   transform: scale(1.2);
 }
@@ -266,6 +244,7 @@ body.light-mode #ranking-list li {
 .insignias {
   margin-top: 10px;
 }
+
 .insignia {
   font-size: 1.2em;
   margin-right: 5px;
@@ -282,6 +261,7 @@ body.light-mode #ranking-list li {
   border-radius: 6px;
   font-size: 0.8em;
 }
+
 .nivel-bronce { background-color: #cd7f32; }
 .nivel-plata { background-color: #c0c0c0; color: #222; }
 .nivel-oro { background-color: #ffd700; color: #222; }
@@ -294,6 +274,7 @@ body.light-mode #ranking-list li {
   margin-right: 8px;
   vertical-align: middle;
 }
+
 .perfil-usuario {
   background-color: #2c2c3c;
   padding: 20px;
@@ -330,6 +311,8 @@ body.light-mode #ranking-list li {
   border-radius: 6px;
   margin-bottom: 5px;
 }
+
+/* Biografía y confirmación */
 #bio-input {
   width: 100%;
   padding: 10px;
@@ -346,11 +329,15 @@ body.light-mode #ranking-list li {
   color: #2ecc71;
   font-weight: bold;
 }
+
 #password-error {
   margin-top: 10px;
   font-weight: bold;
 }
-section.modo-apoyo, section.rincon-bienvenida {
+
+/* Módulos de comunidad */
+section.modo-apoyo,
+section.rincon-bienvenida {
   background-color: #1e1e2f;
   padding: 20px;
   border-radius: 12px;
@@ -361,17 +348,7 @@ section h2 {
   margin-bottom: 10px;
 }
 
-textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background-color: #2c2c3c;
-  color: white;
-  resize: vertical;
-  margin-bottom: 10px;
-}
-
+/* Listas */
 ul {
   list-style: none;
   padding: 0;
@@ -383,39 +360,4 @@ ul li {
   border-radius: 8px;
   margin-bottom: 8px;
 }
-body.modo-claro {
-  background-color: #f5f5f5;
-  color: #222;
-}
-
-body.modo-oscuro {
-  background-color: #121212;
-  color: #eee;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
-  border-radius: 8px;
-  background-color: #444;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-body.modo-claro button {
-  background-color: #ddd;
-  color: #222;
-}
-
-body.modo-oscuro button:hover {
-  background-color: #666;
-}
-
-
-
-
-
-
 
