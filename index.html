@@ -40,12 +40,7 @@
     <div class="columna">
       <section class="preguntas">
         <h2>📌 Preguntas recientes</h2>
-        <div id="lista-preguntas">
-          <div class="pregunta">
-            <strong>¿Cómo instalo Linux en mi PC?</strong>
-            <p>por Ana</p>
-          </div>
-        </div>
+        <div id="lista-preguntas"></div>
       </section>
     </div>
 
@@ -64,7 +59,14 @@
         </select>
 
         <div id="chat-messages"></div>
-        <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
+
+        <div class="chat-input-container">
+          <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
+          <div id="emoji-panel" class="emoji-panel hidden">
+            <span>😊</span><span>👍</span><span>❤️</span><span>😂</span><span>😮</span><span>😢</span>
+          </div>
+        </div>
+
         <button id="btn-enviar">Enviar</button>
       </aside>
     </div>
