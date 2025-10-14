@@ -201,3 +201,40 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-publicar").addEventListener("click", publicarPregunta);
   document.getElementById("btn-enviar").addEventListener("click", sendMessage);
 });
+function cargarUsuariosEnChat() {
+  const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+  const select = document.getElementById("user-select");
+  select.innerHTML = '<option value="">Selecciona usuario</option>';
+
+  usuarios.forEach(u => {
+    if (u.usuario !== localStorage.getItem("usuarioActivo")) {
+      const option = document.createElement("option");
+      option.value = u.usuario;
+      option.textContent = u.usuario;
+      select.appendChild(option);
+    }
+  });
+}
+
+function cargarUsuariosDePreguntas() {
+  const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
+  const autores = [...new Set(preguntas.map(p => p.autor))];
+  const select = document.getElementById("user-select");
+
+  autores.forEach(nombre => {
+    if (![...select.options].some(opt => opt.value === nombre) && nombre !== localStorage.getItem("usuarioActivo")) {
+      const option = document.createElement("option");
+      option.value = nombre;
+      option.textContent = nombre;
+      select.appendChild(option);
+    }
+  });
+}
+
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("autor-chat")) {
+    const usuario = e.target.dataset.usuario;
+    const select = document.getElementById("user-select");
+    select.value = usuario;
+    document.getElementById("chat-input").focus();
+  }
