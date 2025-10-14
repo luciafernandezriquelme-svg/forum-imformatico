@@ -38,8 +38,9 @@ function cargarPerfil() {
   document.getElementById("nivel-usuario").textContent = calcularNivel(datos.puntos);
   document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
 
-  // Avatar
-  document.getElementById("avatar-usuario").src = `img/usuarios/${datos.usuario}.png`;
+  // Avatar: base64 > imagen por nombre > default
+  const avatar = datos.avatarBase64 || `img/usuarios/${datos.usuario}.png`;
+  document.getElementById("avatar-usuario").src = avatar;
   document.getElementById("avatar-usuario").onerror = () => {
     document.getElementById("avatar-usuario").src = "img/usuarios/default.png";
   };
@@ -99,6 +100,26 @@ function guardarCambios() {
   document.getElementById("password-input").value = "";
   document.getElementById("confirm-password-input").value = "";
 }
+
+// Subida de imagen personalizada como avatar
+document.getElementById("avatar-input").addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    document.getElementById("avatar-usuario").src = e.target.result;
+
+    const usuario = sessionStorage.getItem("usuario");
+    const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    const index = usuarios.findIndex(u => u.usuario === usuario);
+    if (index !== -1) {
+      usuarios[index].avatarBase64 = e.target.result;
+      localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
+    }
+  };
+  reader.readAsDataURL(file);
+});
 
 // Ejecutar al cargar la página
 window.addEventListener("DOMContentLoaded", cargarPerfil);
