@@ -39,14 +39,16 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  gap: 20px;
 }
 
-.question-form, .preguntas {
+.question-form,
+.preguntas {
   width: 50%;
-  padding-right: 20px;
 }
 
-.question-form input, .question-form textarea {
+.question-form input,
+.question-form textarea {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -70,6 +72,7 @@ body {
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .chat-sidebar {
@@ -77,9 +80,11 @@ body {
   background-color: #2c2c3c;
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.chat-sidebar select, .chat-sidebar input {
+.chat-sidebar select,
+.chat-sidebar input {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -107,6 +112,16 @@ body {
   margin-bottom: 10px;
 }
 
+#chat-messages p {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 8px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
 .ranking {
   padding: 20px;
   background-color: #2c3e50;
@@ -119,7 +134,12 @@ body {
 
 .ranking li {
   margin-bottom: 5px;
+  background-color: #2c2c3c;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
 /* Animación suave para nuevos elementos */
 .fade-in {
   animation: fadeIn 0.4s ease-out forwards;
@@ -136,19 +156,26 @@ body {
   }
 }
 
-/* Estilo tipo burbuja para mensajes del chat */
-#chat-messages p {
-  background-color: #3498db;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 15px;
-  margin-bottom: 8px;
-  max-width: 80%;
-  word-wrap: break-word;
-}
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
 
-/* Sombra sutil para profundidad visual */
-.pregunta,
-.chat-sidebar {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  .question-form,
+  .preguntas,
+  .chat-sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .categories {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .categories img {
+    width: 60px;
+    height: 60px;
+  }
 }
