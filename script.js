@@ -29,10 +29,26 @@ function publicarPregunta() {
   }
 }
 
-// Mostrar pregunta
+// Mostrar pregunta con tarjeta visual y nivel
 function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
-  const div = document.createElement("div");
-  div.classList.add("pregunta", "fade-in");
+  const tarjeta = document.createElement("div");
+  tarjeta.classList.add("tarjeta-pregunta");
+
+  const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+  const datosAutor = usuarios.find(u => u.usuario === autor);
+  let nivel = "Bronce";
+  let claseNivel = "nivel-bronce";
+
+  if (datosAutor) {
+    const puntos = datosAutor.puntos || 0;
+    if (puntos >= 100) {
+      nivel = "Oro";
+      claseNivel = "nivel-oro";
+    } else if (puntos >= 50) {
+      nivel = "Plata";
+      claseNivel = "nivel-plata";
+    }
+  }
 
   const respuestasHTML = respuestas.map(r => `
     <div class="respuesta">
@@ -40,17 +56,22 @@ function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
     </div>
   `).join("");
 
-  div.innerHTML = `
-    <strong>${titulo}</strong>
-    <p>por <span class="autor-chat" data-usuario="${autor}">${autor}</span></p>
-    <p class="contenido">${contenido}</p>
-    <div class="respuestas">${respuestasHTML}</div>
-    <textarea placeholder="Escribe tu respuesta..." class="respuesta-input"></textarea>
-    <button class="btn-responder">Responder</button>
+  tarjeta.innerHTML = `
+    <div class="cabecera-pregunta">
+      <h3 class="titulo-pregunta">${titulo}</h3>
+      <span class="autor-pregunta">por <span class="autor-chat" data-usuario="${autor}">${autor}</span></span>
+    </div>
+    <p class="contenido-pregunta">${contenido}</p>
+    <div class="respuestas-pregunta">${respuestasHTML}</div>
+    <div class="interaccion-pregunta">
+      <textarea class="respuesta-input" placeholder="Escribe tu respuesta..."></textarea>
+      <button class="btn-responder">Responder</button>
+    </div>
+    <div class="nivel-usuario ${claseNivel}">${nivel}</div>
   `;
 
-  div.querySelector(".btn-responder").addEventListener("click", () => {
-    const texto = sanitize(div.querySelector(".respuesta-input").value.trim());
+  tarjeta.querySelector(".btn-responder").addEventListener("click", () => {
+    const texto = sanitize(tarjeta.querySelector(".respuesta-input").value.trim());
     const usuario = sessionStorage.getItem("usuario");
     if (!texto) return alert("Escribe una respuesta.");
     const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
@@ -58,17 +79,17 @@ function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
     if (index !== -1) {
       preguntas[index].respuestas.push({ usuario, texto });
       localStorage.setItem("preguntas", JSON.stringify(preguntas));
-      div.querySelector(".respuestas").innerHTML += `
+      tarjeta.querySelector(".respuestas-pregunta").innerHTML += `
         <div class="respuesta">
           <p><strong>${usuario}:</strong> ${texto}</p>
         </div>
       `;
-      div.querySelector(".respuesta-input").value = "";
+      tarjeta.querySelector(".respuesta-input").value = "";
       sumarPuntos(usuario, 15);
     }
   });
 
-  document.getElementById("lista-preguntas").appendChild(div);
+  document.getElementById("lista-preguntas").appendChild(tarjeta);
 }
 
 // Cargar preguntas guardadas
@@ -80,7 +101,7 @@ function cargarPreguntasGuardadas() {
 // Buscador
 document.getElementById("buscador").addEventListener("input", e => {
   const filtro = e.target.value.toLowerCase();
-  const preguntas = document.querySelectorAll("#lista-preguntas .pregunta");
+  const preguntas = document.querySelectorAll("#lista-preguntas .tarjeta-pregunta");
   preguntas.forEach(p => {
     const texto = p.textContent.toLowerCase();
     p.style.display = texto.includes(filtro) ? "block" : "none";
@@ -214,33 +235,4 @@ document.addEventListener("click", e => {
   }
 });
 
-// Inicialización
-window.addEventListener("DOMContentLoaded", () => {
-  aplicarTema();
-  cargarPreguntasGuardadas();
-  cargarMensajesGuardados();
-  actualizarRanking();
-  cargarUsuariosEnChat();
-  cargarUsuariosDePreguntas();
-
-  const usuario = sessionStorage.getItem("usuario");
-  const bienvenida = document.getElementById("bienvenida");
-  const logoutBtn = document.getElementById("btn-logout");
-
-  if (!usuario) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  if (bienvenida) {
-    bienvenida.textContent = `Hola, ${usuario}!`;
-  }
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      sessionStorage.clear();
-      window.location.href = "login.html";
-    });
-  }
-});
 
