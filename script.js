@@ -110,3 +110,15 @@ window.addEventListener("DOMContentLoaded", () => {
   cargarPreguntasGuardadas();
   cargarMensajesGuardados();
 });
+window.addEventListener("DOMContentLoaded", () => {
+  cargarPreguntasGuardadas();
+  cargarMensajesGuardados();
+
+  const usuario = localStorage.getItem("usuarioActivo");
+  if (usuario) {
+    const bienvenida = document.getElementById("bienvenida");
+    if (bienvenida) {
+      bienvenida.textContent = `Hola, ${usuario}!`;
+    }
+  }
+});
