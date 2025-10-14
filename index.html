@@ -21,10 +21,13 @@
   <main class="main-content">
     <section class="question-form">
       <h2>Publica tu pregunta</h2>
-      <input type="text" placeholder="Tu nombre" id="nombre" />
-      <input type="text" placeholder="Título de la pregunta" id="titulo" />
-      <textarea placeholder="Escribe tu pregunta aquí..." id="pregunta"></textarea>
-      <button onclick="publicarPregunta()">Publicar pregunta</button>
+      <label for="nombre">Tu nombre</label>
+      <input type="text" placeholder="Tu nombre" id="nombre" required />
+      <label for="titulo">Título de la pregunta</label>
+      <input type="text" placeholder="Título de la pregunta" id="titulo" required />
+      <label for="pregunta">Contenido de la pregunta</label>
+      <textarea placeholder="Escribe tu pregunta aquí..." id="pregunta" required></textarea>
+      <button id="btn-publicar">Publicar pregunta</button>
     </section>
 
     <section class="preguntas">
@@ -39,6 +42,7 @@
 
     <aside class="chat-sidebar">
       <h2>💬 Chat con Usuario</h2>
+      <label for="user-select">Selecciona usuario</label>
       <select id="user-select">
         <option value="">Selecciona usuario</option>
         <option value="Ana">Ana</option>
@@ -48,7 +52,7 @@
       </select>
       <div id="chat-messages"></div>
       <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
-      <button onclick="sendMessage()">Enviar</button>
+      <button id="btn-enviar">Enviar</button>
     </aside>
   </main>
 
@@ -57,6 +61,43 @@
     <ul id="ranking-list"></ul>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    function publicarPregunta() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const titulo = document.getElementById("titulo").value.trim();
+      const pregunta = document.getElementById("pregunta").value.trim();
+
+      if (nombre && titulo && pregunta) {
+        const nuevaPregunta = document.createElement("div");
+        nuevaPregunta.classList.add("pregunta");
+        nuevaPregunta.innerHTML = `<strong>${titulo}</strong><p>por ${nombre}</p>`;
+        document.getElementById("lista-preguntas").appendChild(nuevaPregunta);
+
+        document.getElementById("nombre").value = "";
+        document.getElementById("titulo").value = "";
+        document.getElementById("pregunta").value = "";
+      } else {
+        alert("Por favor, completa todos los campos.");
+      }
+    }
+
+    function sendMessage() {
+      const usuario = document.getElementById("user-select").value;
+      const mensaje = document.getElementById("chat-input").value.trim();
+
+      if (usuario && mensaje) {
+        const chat = document.getElementById("chat-messages");
+        const nuevoMensaje = document.createElement("p");
+        nuevoMensaje.textContent = `${usuario}: ${mensaje}`;
+        chat.appendChild(nuevoMensaje);
+        document.getElementById("chat-input").value = "";
+      } else {
+        alert("Selecciona un usuario y escribe un mensaje.");
+      }
+    }
+
+    document.getElementById("btn-publicar").addEventListener("click", publicarPregunta);
+    document.getElementById("btn-enviar").addEventListener("click", sendMessage);
+  </script>
 </body>
 </html>
