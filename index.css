@@ -346,6 +346,11 @@ body.light-mode #ranking-list li {
   color: #2ecc71;
   font-weight: bold;
 }
+#password-error {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
 
 
 
