@@ -140,6 +140,33 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* 🔵 Separadores decorativos */
+.separador {
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.separador::before,
+.separador::after {
+  content: "";
+  display: inline-block;
+  width: 30%;
+  height: 2px;
+  background-color: #3498db;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+
+.separador span {
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 1em;
+  background-color: #1e1e2f;
+  padding: 0 10px;
+}
+
 /* Animación suave para nuevos elementos */
 .fade-in {
   animation: fadeIn 0.4s ease-out forwards;
