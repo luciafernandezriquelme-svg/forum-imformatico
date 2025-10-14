@@ -25,5 +25,4 @@ function publicarPregunta() {
     document.getElementById("lista-preguntas").appendChild(nuevaPregunta);
 
     document.getElementById("nombre").value = "";
-    document.getElementById("titulo").value = "";
-    document
+    document.getElementById
