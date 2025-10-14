@@ -12,6 +12,8 @@
     <nav>
       <ul>
         <li><a href="index.html">Inicio</a></li>
+        <li><a href="foro.html">Foro</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
       </ul>
     </nav>
   </header>
@@ -55,6 +57,16 @@
       <h3>Historial de preguntas</h3>
       <ul id="historial-preguntas"></ul>
     </section>
+
+    <section>
+      <h3>Mis mensajes de apoyo</h3>
+      <ul id="mis-apoyos"></ul>
+    </section>
+
+    <section>
+      <h3>Mi presentación en la comunidad</h3>
+      <ul id="mi-bienvenida"></ul>
+    </section>
   </main>
 
   <script>
@@ -90,7 +102,6 @@
       document.getElementById("nivel-usuario").textContent = calcularNivel(datos.puntos);
       document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
 
-      // Avatar: base64 > imagen por nombre > default
       const avatar = datos.avatarBase64 || `img/usuarios/${datos.usuario}.png`;
       document.getElementById("avatar-usuario").src = avatar;
       document.getElementById("avatar-usuario").onerror = () => {
@@ -146,7 +157,6 @@
       document.getElementById("confirm-password-input").value = "";
     }
 
-    // Subida de imagen personalizada
     document.getElementById("avatar-input").addEventListener("change", function () {
       const file = this.files[0];
       if (!file) return;
@@ -166,8 +176,37 @@
       reader.readAsDataURL(file);
     });
 
-    window.addEventListener("DOMContentLoaded", cargarPerfil);
+    function cargarMensajesComunidad() {
+      const usuario = sessionStorage.getItem("usuario");
+
+      const apoyos = JSON.parse(localStorage.getItem("mensajesApoyo")) || [];
+      const misApoyos = apoyos.filter(a => a.autor === usuario);
+      const listaApoyos = document.getElementById("mis-apoyos");
+      listaApoyos.innerHTML = "";
+      misApoyos.slice().reverse().forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = a.mensaje;
+        listaApoyos.appendChild(li);
+      });
+
+      const bienvenidas = JSON.parse(localStorage.getItem("mensajesBienvenida")) || [];
+      const miBienvenida = bienvenidas.filter(b => b.autor === usuario);
+      const listaBienvenida = document.getElementById("mi-bienvenida");
+      listaBienvenida.innerHTML = "";
+      miBienvenida.slice().reverse().forEach(b => {
+        const li = document.createElement("li");
+        li   const li = document.createElement("li");
+        li.textContent = b.mensaje;
+        listaBienvenida.appendChild(li);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      cargarPerfil();
+      cargarMensajesComunidad();
+    });
   </script>
 </body>
 </html>
+
 
