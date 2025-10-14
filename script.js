@@ -1,17 +1,11 @@
-// Redirigir si no hay sesión activa
+// Redirección si no hay sesión activa
 if (!localStorage.getItem("usuarioActivo")) {
   window.location.href = "login.html";
 }
 
 // Sanitización básica
 function sanitize(text) {
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
   return text.replace(/[&<>"']/g, char => map[char]);
 }
 
@@ -35,7 +29,7 @@ function publicarPregunta() {
   }
 }
 
-// Mostrar pregunta con respuestas y botón de responder
+// Mostrar pregunta
 function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
   const div = document.createElement("div");
   div.classList.add("pregunta", "fade-in");
@@ -48,7 +42,7 @@ function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
 
   div.innerHTML = `
     <strong>${titulo}</strong>
-    <p>por ${autor}</p>
+    <p>por <span class="autor-chat" data-usuario="${autor}">${autor}</span></p>
     <p class="contenido">${contenido}</p>
     <div class="respuestas">${respuestasHTML}</div>
     <textarea placeholder="Escribe tu respuesta..." class="respuesta-input"></textarea>
@@ -83,7 +77,7 @@ function cargarPreguntasGuardadas() {
   preguntas.forEach(mostrarPregunta);
 }
 
-// Buscador de preguntas
+// Buscador
 document.getElementById("buscador").addEventListener("input", e => {
   const filtro = e.target.value.toLowerCase();
   const preguntas = document.querySelectorAll("#lista-preguntas .pregunta");
@@ -93,7 +87,7 @@ document.getElementById("buscador").addEventListener("input", e => {
   });
 });
 
-// Chat
+// Chat privado
 function sendMessage() {
   const usuario = sanitize(document.getElementById("user-select").value);
   const mensaje = sanitize(document.getElementById("chat-input").value.trim());
@@ -115,7 +109,7 @@ function mostrarMensaje({ usuario, mensaje }) {
   const chat = document.getElementById("chat-messages");
   const nuevoMensaje = document.createElement("p");
   nuevoMensaje.textContent = `${usuario}: ${mensaje}`;
-  nuevoMensaje.classList.add("fade-in", `usuario-${usuario.toLowerCase()}`);
+  nuevoMensaje.classList.add("fade-in");
   chat.appendChild(nuevoMensaje);
 }
 
@@ -124,7 +118,7 @@ function cargarMensajesGuardados() {
   mensajes.forEach(mostrarMensaje);
 }
 
-// Reacciones tipo WhatsApp
+// Emoji panel
 document.getElementById("chat-input").addEventListener("focus", () => {
   document.getElementById("emoji-panel").classList.remove("hidden");
 });
@@ -178,29 +172,7 @@ document.getElementById("btn-tema").addEventListener("click", () => {
   localStorage.setItem("temaPreferido", modo);
 });
 
-// Inicialización
-window.addEventListener("DOMContentLoaded", () => {
-  aplicarTema();
-  cargarPreguntasGuardadas();
-  cargarMensajesGuardados();
-  actualizarRanking();
-
-  const usuario = localStorage.getItem("usuarioActivo");
-  const bienvenida = document.getElementById("bienvenida");
-  const logoutBtn = document.getElementById("btn-logout");
-
-  if (usuario && bienvenida && logoutBtn) {
-    bienvenida.textContent = `Hola, ${usuario}!`;
-    logoutBtn.classList.remove("hidden");
-    logoutBtn.addEventListener("click", () => {
-      localStorage.removeItem("usuarioActivo");
-      window.location.href = "login.html";
-    });
-  }
-
-  document.getElementById("btn-publicar").addEventListener("click", publicarPregunta);
-  document.getElementById("btn-enviar").addEventListener("click", sendMessage);
-});
+// Mostrar usuarios en el chat
 function cargarUsuariosEnChat() {
   const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
   const select = document.getElementById("user-select");
@@ -216,6 +188,7 @@ function cargarUsuariosEnChat() {
   });
 }
 
+// Mostrar autores de preguntas en el chat
 function cargarUsuariosDePreguntas() {
   const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
   const autores = [...new Set(preguntas.map(p => p.autor))];
@@ -231,6 +204,7 @@ function cargarUsuariosDePreguntas() {
   });
 }
 
+// Seleccionar usuario desde nombre en pregunta
 document.addEventListener("click", e => {
   if (e.target.classList.contains("autor-chat")) {
     const usuario = e.target.dataset.usuario;
@@ -238,3 +212,25 @@ document.addEventListener("click", e => {
     select.value = usuario;
     document.getElementById("chat-input").focus();
   }
+});
+
+// Inicialización
+window.addEventListener("DOMContentLoaded", () => {
+  aplicarTema();
+  cargarPreguntasGuardadas();
+  cargarMensajesGuardados();
+  actualizarRanking();
+  cargarUsuariosEnChat();
+  cargarUsuariosDePreguntas();
+
+  const usuario = localStorage.getItem("usuarioActivo");
+  const bienvenida = document.getElementById("bienvenida");
+  const logoutBtn = document.getElementById("btn-logout");
+
+  if (!usuario) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (bienvenida && logoutBtn) {
+    bienvenida.text
