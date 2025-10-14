@@ -102,28 +102,29 @@ function guardarCambios() {
 }
 
 // Subida de imagen personalizada como avatar
-document.getElementById("avatar-input").addEventListener("change", function () {
-  const file = this.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    document.getElementById("avatar-usuario").src = e.target.result;
-
-    const usuario = sessionStorage.getItem("usuario");
-    const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-    const index = usuarios.findIndex(u => u.usuario === usuario);
-    if (index !== -1) {
-      usuarios[index].avatarBase64 = e.target.result;
-      localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
-    }
-  };
-  reader.readAsDataURL(file);
-});
-
-// Ejecutar al cargar la página
-window.addEventListener("DOMContentLoaded", cargarPerfil);
 document.addEventListener("DOMContentLoaded", () => {
+  const avatarInput = document.getElementById("avatar-input");
+  if (avatarInput) {
+    avatarInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("avatar-usuario").src = e.target.result;
+
+        const usuario = sessionStorage.getItem("usuario");
+        const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+        const index = usuarios.findIndex(u => u.usuario === usuario);
+        if (index !== -1) {
+          usuarios[index].avatarBase64 = e.target.result;
+          localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   // Mostrar bienvenida si hay usuario
   const usuario = sessionStorage.getItem("usuario");
   if (usuario) {
@@ -138,34 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
       sessionStorage.removeItem("usuario");
-      window.location.href = "index.html"; // O login.html si tienes login
+      window.location.href = "index.html"; // O "login.html"
     });
-  }
-
-  // Botón cambiar tema
-  const btnTema = document.getElementById("btn-tema");
-  if (btnTema) {
-    btnTema.addEventListener("click", () => {
-      const body = document.body;
-      const esOscuro = body.classList.contains("modo-oscuro");
-
-      if (esOscuro) {
-        body.classList.remove("modo-oscuro");
-        body.classList.add("modo-claro");
-        localStorage.setItem("tema", "claro");
-      } else {
-        body.classList.remove("modo-claro");
-        body.classList.add("modo-oscuro");
-        localStorage.setItem("tema", "oscuro");
-      }
-    });
-  }
-
-  // Aplicar tema guardado al cargar
-  const temaGuardado = localStorage.getItem("tema");
-  if (temaGuardado === "oscuro") {
-    document.body.classList.add("modo-oscuro");
-  } else {
-    document.body.classList.add("modo-claro");
   }
 });
+
+// Ejecutar carga de perfil
+window.addEventListener("DOMContentLoaded", cargarPerfil);
+
