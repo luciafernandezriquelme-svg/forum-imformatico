@@ -8,9 +8,10 @@
 </head>
 <body>
   <header class="hero">
-    <p id="bienvenida"></p>
     <h1>Forum Informático</h1>
     <p>¡Haz preguntas y responde sobre cualquier tema de informática!</p>
+    <p id="bienvenida"></p>
+    <button id="btn-logout" class="logout hidden">Cerrar sesión</button>
     <div class="categories">
       <img src="hardware.jpg" alt="Hardware" />
       <img src="codigo.jpg" alt="Programación" />
@@ -25,13 +26,10 @@
         <h2>Publica tu pregunta</h2>
         <label for="nombre">Tu nombre</label>
         <input type="text" id="nombre" placeholder="Tu nombre" required />
-
         <label for="titulo">Título de la pregunta</label>
         <input type="text" id="titulo" placeholder="Título de la pregunta" required />
-
         <label for="pregunta">Contenido de la pregunta</label>
         <textarea id="pregunta" placeholder="Escribe tu pregunta aquí..." required></textarea>
-
         <button id="btn-publicar">Publicar pregunta</button>
       </section>
     </div>
