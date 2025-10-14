@@ -1,3 +1,7 @@
+// Redirigir si no hay sesión activa
+if (!localStorage.getItem("usuarioActivo")) {
+  window.location.href = "login.html";
+}
 function sanitize(text) {
   const map = {
     '&': '&amp;',
