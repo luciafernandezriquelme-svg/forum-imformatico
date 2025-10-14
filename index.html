@@ -9,6 +9,7 @@
 <body>
   <header class="hero">
     <div class="top-bar">
+      <button id="btn-tema">🌗 Cambiar tema</button>
       <button id="btn-logout" class="logout hidden">Cerrar sesión</button>
     </div>
     <h1>Forum Informático</h1>
@@ -26,10 +27,10 @@
     <div class="columna">
       <section class="question-form">
         <h2>Publica tu pregunta</h2>
-        <label for="titulo">Título de la pregunta</label>
-        <input type="text" id="titulo" placeholder="Título de la pregunta" required />
-        <label for="pregunta">Contenido de la pregunta</label>
-        <textarea id="pregunta" placeholder="Escribe tu pregunta aquí..." required></textarea>
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" placeholder="Título de la pregunta" />
+        <label for="pregunta">Contenido</label>
+        <textarea id="pregunta" placeholder="Escribe tu pregunta aquí..."></textarea>
         <button id="btn-publicar">Publicar pregunta</button>
       </section>
     </div>
@@ -49,7 +50,6 @@
     <div class="columna">
       <aside class="chat-sidebar">
         <h2>💬 Chat con Usuario</h2>
-        <label for="user-select">Selecciona usuario</label>
         <select id="user-select">
           <option value="">Selecciona usuario</option>
           <option value="Ana">Ana</option>
@@ -57,16 +57,13 @@
           <option value="Marta">Marta</option>
           <option value="Pedro">Pedro</option>
         </select>
-
         <div id="chat-messages"></div>
-
         <div class="chat-input-container">
           <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
           <div id="emoji-panel" class="emoji-panel hidden">
             <span>😊</span><span>👍</span><span>❤️</span><span>😂</span><span>😮</span><span>😢</span>
           </div>
         </div>
-
         <button id="btn-enviar">Enviar</button>
       </aside>
     </div>
