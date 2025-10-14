@@ -19,43 +19,10 @@
       <button onclick="iniciarSesion()">Iniciar sesión</button>
       <button onclick="registrarse()">Registrarse</button>
     </div>
+
+    <div id="mensaje" class="alerta hidden"></div>
   </div>
 
-  <script>
-    function registrarse() {
-      const correo = document.getElementById("correo").value.trim();
-      const usuario = document.getElementById("usuario").value.trim();
-      const clave = document.getElementById("clave").value.trim();
-
-      if (correo && usuario && clave) {
-        const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-        const existe = usuarios.find(u => u.correo === correo);
-        if (existe) {
-          alert("Este correo ya está registrado.");
-        } else {
-          usuarios.push({ correo, usuario, clave });
-          localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
-          alert("Registro exitoso. Ahora puedes iniciar sesión.");
-        }
-      } else {
-        alert("Completa todos los campos para registrarte.");
-      }
-    }
-
-    function iniciarSesion() {
-      const correo = document.getElementById("correo").value.trim();
-      const clave = document.getElementById("clave").value.trim();
-
-      const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-      const encontrado = usuarios.find(u => u.correo === correo && u.clave === clave);
-
-      if (encontrado) {
-        localStorage.setItem("usuarioActivo", encontrado.usuario);
-        window.location.href = "index.html";
-      } else {
-        alert("Correo o contraseña incorrectos.");
-      }
-    }
-  </script>
+  <script src="login.js"></script>
 </body>
 </html>
