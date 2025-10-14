@@ -234,5 +234,77 @@ document.addEventListener("click", e => {
     document.getElementById("chat-input").focus();
   }
 });
+function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
+  const tarjeta = document.createElement("div");
+  tarjeta.classList.add("tarjeta-pregunta");
+
+  const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+  const datosAutor = usuarios.find(u => u.usuario === autor);
+  let nivel = "Bronce", claseNivel = "nivel-bronce", insignias = "";
+
+  if (datosAutor) {
+    const puntos = datosAutor.puntos || 0;
+    if (puntos >= 100) { nivel = "Oro"; claseNivel = "nivel-oro"; }
+    else if (puntos >= 50) { nivel = "Plata"; claseNivel = "nivel-plata"; }
+
+    if (puntos >= 10) insignias += `<span class="insignia">🎯</span>`;
+    if (datosAutor.respuestas && datosAutor.respuestas >= 10) insignias += `<span class="insignia">💬</span>`;
+    if (datosAutor.top3) insignias += `<span class="insignia">🏆</span>`;
+  }
+
+  const fecha = new Date().toLocaleDateString("es-ES", {
+    day: "numeric", month: "short", year: "numeric"
+  });
+
+  const respuestasHTML = respuestas.map(r => `
+    <div class="respuesta">
+      <p><strong>${r.usuario}:</strong> ${r.texto}</p>
+    </div>
+  `).join("");
+
+  tarjeta.innerHTML = `
+    <div class="cabecera-pregunta">
+      <h3 class="titulo-pregunta">${titulo}</h3>
+      <span class="autor-pregunta">
+        <img src="img/usuarios/${autor}.png" alt="${autor}" class="avatar">
+        <span class="autor-chat" data-usuario="${autor}">${autor}</span>
+      </span>
+    </div>
+    <p class="contenido-pregunta">${contenido}</p>
+    <span class="fecha-pregunta">${fecha}</span>
+    <div class="respuestas-pregunta">${respuestasHTML}</div>
+    <div class="interaccion-pregunta">
+      <textarea class="respuesta-input" placeholder="Escribe tu respuesta..."></textarea>
+      <button class="btn-responder">Responder</button>
+    </div>
+    <div class="reacciones">
+      <span>👍</span><span>❤️</span><span>😂</span>
+    </div>
+    <div class="insignias">${insignias}</div>
+    <div class="nivel-usuario ${claseNivel}">${nivel}</div>
+  `;
+
+  tarjeta.querySelector(".btn-responder").addEventListener("click", () => {
+    const texto = sanitize(tarjeta.querySelector(".respuesta-input").value.trim());
+    const usuario = sessionStorage.getItem("usuario");
+    if (!texto) return alert("Escribe una respuesta.");
+    const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
+    const index = preguntas.findIndex(p => p.titulo === titulo && p.autor === autor);
+    if (index !== -1) {
+      preguntas[index].respuestas.push({ usuario, texto });
+      localStorage.setItem("preguntas", JSON.stringify(preguntas));
+      tarjeta.querySelector(".respuestas-pregunta").innerHTML += `
+        <div class="respuesta">
+          <p><strong>${usuario}:</strong> ${texto}</p>
+        </div>
+      `;
+      tarjeta.querySelector(".respuesta-input").value = "";
+      sumarPuntos(usuario, 15);
+    }
+  });
+
+  document.getElementById("lista-preguntas").appendChild(tarjeta);
+}
+
 
 
