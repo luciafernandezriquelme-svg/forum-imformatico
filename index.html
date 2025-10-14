@@ -3,41 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Foro Informático</title>
+  <title>Forum Informático</title>
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <h1>Bienvenido al Foro Informático</h1>
-  <p id="bienvenida"></p>
-  <button id="btn-logout" class="hidden">Cerrar sesión</button>
-  <button id="btn-tema">Cambiar tema</button>
+  <header class="header">
+    <h1>Forum Informático</h1>
+    <div class="acciones">
+      <p id="bienvenida">Hola, Lucia!</p>
+      <button id="btn-tema">Cambiar tema</button>
+      <button id="btn-logout" class="hidden">Cerrar sesión</button>
+    </div>
+    <nav class="categorias">
+      <button>Hardware</button>
+      <button>Programación</button>
+      <button>Inteligencia Artificial</button>
+      <button>Redes</button>
+    </nav>
+  </header>
 
-  <h2>Ranking de usuarios</h2>
-  <ul id="ranking-list"></ul>
+  <main class="contenedor-principal">
+    <!-- Panel izquierdo: Publicar pregunta -->
+    <section class="panel panel-izquierdo">
+      <h2>Publica tu pregunta</h2>
+      <input type="text" id="titulo" placeholder="Título" />
+      <textarea id="pregunta" placeholder="Contenido"></textarea>
+      <button id="btn-publicar">Publicar pregunta</button>
+    </section>
 
-  <h2>Publicar una pregunta</h2>
-  <input type="text" id="titulo" placeholder="Título de la pregunta" />
-  <textarea id="pregunta" placeholder="Escribe tu pregunta..."></textarea>
-  <button id="btn-publicar">Publicar</button>
+    <!-- Panel central: Preguntas recientes -->
+    <section class="panel panel-central">
+      <h2>Preguntas recientes</h2>
+      <input type="text" id="buscador" placeholder="Buscar preguntas..." />
+      <div id="lista-preguntas"></div>
+    </section>
 
-  <h2>Buscar preguntas</h2>
-  <input type="text" id="buscador" placeholder="Buscar..." />
+    <!-- Panel derecho: Chat privado -->
+    <section class="panel panel-derecho">
+      <h2>Chat con Usuario</h2>
+      <select id="user-select">
+        <option value="">Selecciona usuario</option>
+      </select>
+      <textarea id="chat-input" placeholder="Escribe tu mensaje..."></textarea>
+      <button id="btn-enviar">Enviar</button>
 
-  <div id="lista-preguntas"></div>
+      <div id="emoji-panel" class="hidden">
+        <span>😀</span><span>👍</span><span>❤️</span><span>😂</span><span>🔥</span>
+      </div>
 
-  <h2>Chat privado</h2>
-  <select id="user-select">
-    <option value="">Selecciona usuario</option>
-  </select>
-  <textarea id="chat-input" placeholder="Escribe tu mensaje..."></textarea>
-  <button id="btn-enviar">Enviar</button>
-
-  <div id="emoji-panel" class="hidden">
-    <span>😀</span><span>👍</span><span>❤️</span><span>😂</span><span>🔥</span>
-  </div>
-
-  <div id="chat-messages"></div>
+      <div id="chat-messages"></div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
 </html>
+
