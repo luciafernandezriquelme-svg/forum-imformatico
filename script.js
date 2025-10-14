@@ -1,122 +1,76 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #1e1e2f;
-  color: #ffffff;
+// 🔐 Seguridad: función para sanitizar entradas
+function sanitize(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  };
+  return text.replace(/[&<>"']/g, char => map[char]);
 }
 
-.hero {
-  text-align: center;
-  padding: 30px;
-  background-color: #2c3e50;
+// 📝 Publicar pregunta
+function publicarPregunta() {
+  const nombre = sanitize(document.getElementById("nombre").value.trim());
+  const titulo = sanitize(document.getElementById("titulo").value.trim());
+  const pregunta = sanitize(document.getElementById("pregunta").value.trim());
+
+  if (nombre && titulo && pregunta) {
+    const nuevaPregunta = document.createElement("div");
+    nuevaPregunta.classList.add("pregunta", "fade-in");
+    nuevaPregunta.innerHTML = `
+      <strong>${titulo}</strong>
+      <p>por ${nombre}</p>
+      <p class="contenido">${pregunta}</p>
+    `;
+    document.getElementById("lista-preguntas").appendChild(nuevaPregunta);
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("titulo").value = "";
+    document.getElementById("pregunta").value = "";
+  } else {
+    alert("Por favor, completa todos los campos.");
+  }
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: 2.5em;
+// 💬 Enviar mensaje al chat
+function sendMessage() {
+  const usuario = sanitize(document.getElementById("user-select").value);
+  const mensaje = sanitize(document.getElementById("chat-input").value.trim());
+
+  if (usuario && mensaje) {
+    const chat = document.getElementById("chat-messages");
+    const nuevoMensaje = document.createElement("p");
+    nuevoMensaje.textContent = `${usuario}: ${mensaje}`;
+    nuevoMensaje.classList.add("fade-in");
+    chat.appendChild(nuevoMensaje);
+    document.getElementById("chat-input").value = "";
+  } else {
+    alert("Selecciona un usuario y escribe un mensaje.");
+  }
 }
 
-.hero p {
-  margin-top: 10px;
-  font-size: 1.2em;
-}
+// 🎯 Eventos
+document.getElementById("btn-publicar").addEventListener("click", publicarPregunta);
+document.getElementById("btn-enviar").addEventListener("click", sendMessage);
 
-.categories {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
+// ✨ Animación CSS inyectada dinámicamente
+const style = document.createElement("style");
+style.textContent = `
+  .fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
 
-.categories img {
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.main-content {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.question-form, .preguntas {
-  width: 50%;
-  padding-right: 20px;
-}
-
-.question-form input, .question-form textarea {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background-color: #2c2c3c;
-  color: white;
-}
-
-.question-form button {
-  padding: 10px 20px;
-  background-color: #3498db;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-}
-
-.pregunta {
-  background-color: #2c2c3c;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.chat-sidebar {
-  width: 40%;
-  background-color: #2c2c3c;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.chat-sidebar select, .chat-sidebar input {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background-color: #1e1e2f;
-  color: white;
-}
-
-.chat-sidebar button {
-  padding: 10px;
-  background-color: #3498db;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-}
-
-#chat-messages {
-  height: 200px;
-  overflow-y: auto;
-  background-color: #1e1e2f;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.ranking {
-  padding: 20px;
-  background-color: #2c3e50;
-}
-
-.ranking ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.ranking li {
-  margin-bottom: 5px;
-}
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+document.head.appendChild(style);
