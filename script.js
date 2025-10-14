@@ -35,15 +35,45 @@ function publicarPregunta() {
   }
 }
 
-// Mostrar pregunta
-function mostrarPregunta({ autor, titulo, contenido }) {
+// Mostrar pregunta con respuestas y botón de responder
+function mostrarPregunta({ autor, titulo, contenido, respuestas = [] }) {
   const div = document.createElement("div");
   div.classList.add("pregunta", "fade-in");
+
+  const respuestasHTML = respuestas.map(r => `
+    <div class="respuesta">
+      <p><strong>${r.usuario}:</strong> ${r.texto}</p>
+    </div>
+  `).join("");
+
   div.innerHTML = `
     <strong>${titulo}</strong>
     <p>por ${autor}</p>
     <p class="contenido">${contenido}</p>
+    <div class="respuestas">${respuestasHTML}</div>
+    <textarea placeholder="Escribe tu respuesta..." class="respuesta-input"></textarea>
+    <button class="btn-responder">Responder</button>
   `;
+
+  div.querySelector(".btn-responder").addEventListener("click", () => {
+    const texto = sanitize(div.querySelector(".respuesta-input").value.trim());
+    const usuario = localStorage.getItem("usuarioActivo");
+    if (!texto) return alert("Escribe una respuesta.");
+    const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
+    const index = preguntas.findIndex(p => p.titulo === titulo && p.autor === autor);
+    if (index !== -1) {
+      preguntas[index].respuestas.push({ usuario, texto });
+      localStorage.setItem("preguntas", JSON.stringify(preguntas));
+      div.querySelector(".respuestas").innerHTML += `
+        <div class="respuesta">
+          <p><strong>${usuario}:</strong> ${texto}</p>
+        </div>
+      `;
+      div.querySelector(".respuesta-input").value = "";
+      sumarPuntos(usuario, 15);
+    }
+  });
+
   document.getElementById("lista-preguntas").appendChild(div);
 }
 
