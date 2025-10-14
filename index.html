@@ -3,76 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forum Informático</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Foro Informático</title>
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <header class="hero">
-    <div class="top-bar">
-      <button id="btn-tema">🌗 Cambiar tema</button>
-      <button id="btn-logout" class="logout hidden">Cerrar sesión</button>
-    </div>
-    <h1>Forum Informático</h1>
-    <p>¡Haz preguntas y responde sobre cualquier tema de informática!</p>
-    <p id="bienvenida"></p>
-    <div class="categories">
-      <img src="hardware.jpg" alt="Hardware" />
-      <img src="codigo.jpg" alt="Programación" />
-      <img src="ia.jpg" alt="Inteligencia Artificial" />
-      <img src="redes.jpg" alt="Redes" />
-    </div>
-  </header>
+  <h1>Bienvenido al Foro Informático</h1>
+  <p id="bienvenida"></p>
+  <button id="btn-logout" class="hidden">Cerrar sesión</button>
+  <button id="btn-tema">Cambiar tema</button>
 
-  <main class="main-content">
-    <div class="columna">
-      <section class="question-form">
-        <h2>Publica tu pregunta</h2>
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" placeholder="Título de la pregunta" />
-        <label for="pregunta">Contenido</label>
-        <textarea id="pregunta" placeholder="Escribe tu pregunta aquí..."></textarea>
-        <button id="btn-publicar">Publicar pregunta</button>
-      </section>
-    </div>
+  <h2>Ranking de usuarios</h2>
+  <ul id="ranking-list"></ul>
 
-    <div class="linea-vertical"></div>
+  <h2>Publicar una pregunta</h2>
+  <input type="text" id="titulo" placeholder="Título de la pregunta" />
+  <textarea id="pregunta" placeholder="Escribe tu pregunta..."></textarea>
+  <button id="btn-publicar">Publicar</button>
 
-    <div class="columna">
-      <section class="preguntas">
-        <h2>📌 Preguntas recientes</h2>
-        <input type="text" id="buscador" placeholder="Buscar preguntas..." />
-        <div id="lista-preguntas"></div>
-      </section>
-    </div>
+  <h2>Buscar preguntas</h2>
+  <input type="text" id="buscador" placeholder="Buscar..." />
 
-    <div class="linea-vertical"></div>
+  <div id="lista-preguntas"></div>
 
-    <div class="columna">
-      <aside class="chat-sidebar">
-        <h2>💬 Chat con Usuario</h2>
-        <select id="user-select">
-          <option value="">Selecciona usuario</option>
-          <option value="Ana">Ana</option>
-          <option value="Luis">Luis</option>
-          <option value="Marta">Marta</option>
-          <option value="Pedro">Pedro</option>
-        </select>
-        <div id="chat-messages"></div>
-        <div class="chat-input-container">
-          <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
-          <div id="emoji-panel" class="emoji-panel hidden">
-            <span>😊</span><span>👍</span><span>❤️</span><span>😂</span><span>😮</span><span>😢</span>
-          </div>
-        </div>
-        <button id="btn-enviar">Enviar</button>
-      </aside>
-    </div>
-  </main>
+  <h2>Chat privado</h2>
+  <select id="user-select">
+    <option value="">Selecciona usuario</option>
+  </select>
+  <textarea id="chat-input" placeholder="Escribe tu mensaje..."></textarea>
+  <button id="btn-enviar">Enviar</button>
 
-  <footer class="ranking">
-    <h2>🏆 Ranking de reputación</h2>
-    <ul id="ranking-list"></ul>
-  </footer>
+  <div id="emoji-panel" class="hidden">
+    <span>😀</span><span>👍</span><span>❤️</span><span>😂</span><span>🔥</span>
+  </div>
+
+  <div id="chat-messages"></div>
 
   <script src="script.js"></script>
 </body>
