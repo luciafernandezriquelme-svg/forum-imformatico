@@ -21,18 +21,31 @@
     <section class="perfil-usuario">
       <div class="perfil-imagen">
         <img id="avatar-usuario" src="" alt="Avatar del usuario" class="avatar-grande" />
+        <p><strong>Foto de perfil</strong></p>
       </div>
 
       <div class="perfil-detalles">
-        <h2 id="nombre-usuario">Nombre</h2>
+        <p><strong>Nombre:</strong> <span id="nombre-usuario">-</span></p>
+        <p><strong>Nombre de usuario:</strong> <span id="usuario-id">-</span></p>
         <p><strong>Correo:</strong> <span id="correo-usuario">-</span></p>
 
         <label for="bio-input"><strong>Biografía:</strong></label>
         <textarea id="bio-input" placeholder="Escribe tu biografía..."></textarea>
-        <button onclick="guardarBiografia()">Guardar biografía</button>
-        <p id="bio-confirmacion" class="fade-in hidden">✅ Biografía actualizada</p>
 
-        <p><strong>Intereses:</strong> <span id="intereses-usuario">-</span></p>
+        <label for="intereses-input"><strong>Intereses:</strong></label>
+        <input type="text" id="intereses-input" placeholder="Ej: Programación, Música..." />
+
+        <label for="password-input"><strong>Nueva contraseña:</strong></label>
+        <input type="password" id="password-input" placeholder="Mínimo 6 caracteres" />
+
+        <label for="confirm-password-input"><strong>Confirmar contraseña:</strong></label>
+        <input type="password" id="confirm-password-input" placeholder="Repite la contraseña" />
+
+        <p id="password-error" class="fade-in hidden" style="color: #e74c3c;"></p>
+
+        <button onclick="guardarCambios()">Guardar cambios</button>
+        <p id="confirmacion" class="fade-in hidden">✅ Cambios guardados correctamente</p>
+
         <p><strong>Puntos:</strong> <span id="puntos-usuario">0</span> | Nivel: <span id="nivel-usuario">Bronce</span></p>
         <div class="insignias" id="insignias-usuario"></div>
       </div>
@@ -68,10 +81,11 @@
       const datos = usuarios.find(u => u.usuario === usuario);
       if (!datos) return;
 
-      document.getElementById("nombre-usuario").textContent = datos.usuario;
+      document.getElementById("nombre-usuario").textContent = datos.nombre || datos.usuario;
+      document.getElementById("usuario-id").textContent = datos.usuario;
       document.getElementById("correo-usuario").textContent = datos.correo || "Sin correo";
       document.getElementById("bio-input").value = datos.bio || "";
-      document.getElementById("intereses-usuario").textContent = datos.intereses || "Sin intereses";
+      document.getElementById("intereses-input").value = datos.intereses || "";
       document.getElementById("puntos-usuario").textContent = datos.puntos || 0;
       document.getElementById("nivel-usuario").textContent = calcularNivel(datos.puntos);
       document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
@@ -90,18 +104,43 @@
       });
     }
 
-    function guardarBiografia() {
-      const nuevaBio = document.getElementById("bio-input").value.trim();
+    function guardarCambios() {
       const usuario = sessionStorage.getItem("usuario");
       const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
       const index = usuarios.findIndex(u => u.usuario === usuario);
-      if (index !== -1) {
-        usuarios[index].bio = nuevaBio;
-        localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
-        const confirmacion = document.getElementById("bio-confirmacion");
-        confirmacion.classList.remove("hidden");
-        setTimeout(() => confirmacion.classList.add("hidden"), 2000);
+      if (index === -1) return;
+
+      usuarios[index].bio = document.getElementById("bio-input").value.trim();
+      usuarios[index].intereses = document.getElementById("intereses-input").value.trim();
+
+      const nuevaPass = document.getElementById("password-input").value.trim();
+      const confirmPass = document.getElementById("confirm-password-input").value.trim();
+      const errorMsg = document.getElementById("password-error");
+      errorMsg.classList.add("hidden");
+      errorMsg.textContent = "";
+
+      if (nuevaPass || confirmPass) {
+        if (nuevaPass.length < 6) {
+          errorMsg.textContent = "La contraseña debe tener al menos 6 caracteres.";
+          errorMsg.classList.remove("hidden");
+          return;
+        }
+        if (nuevaPass !== confirmPass) {
+          errorMsg.textContent = "Las contraseñas no coinciden.";
+          errorMsg.classList.remove("hidden");
+          return;
+        }
+        usuarios[index].contraseña = nuevaPass;
       }
+
+      localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
+
+      const confirmacion = document.getElementById("confirmacion");
+      confirmacion.classList.remove("hidden");
+      setTimeout(() => confirmacion.classList.add("hidden"), 2000);
+
+      document.getElementById("password-input").value = "";
+      document.getElementById("confirm-password-input").value = "";
     }
 
     window.addEventListener("DOMContentLoaded", cargarPerfil);
