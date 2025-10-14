@@ -312,13 +312,7 @@ body {
   color: white;
   cursor: pointer;
 }
-body {
-  background-image: url('Fondo-foro.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: white;
-}
+
 
 
 
