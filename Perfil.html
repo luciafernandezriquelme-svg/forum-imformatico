@@ -9,22 +9,36 @@
 <body>
   <header>
     <h1>Perfil de Usuario</h1>
-    <button onclick="window.location.href='index.html'">Volver al foro</button>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="foro.html">Foro</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
     <section class="perfil-usuario">
-      <img src="" alt="Avatar" class="avatar-grande" id="avatar-usuario" />
-      <h2 id="nombre-usuario">Usuario</h2>
+      <div class="perfil-imagen">
+        <img id="avatar-usuario" src="" alt="Avatar del usuario" class="avatar-grande" />
+      </div>
 
-      <label for="bio-input">Biografía:</label>
-      <textarea id="bio-input" placeholder="Escribe tu biografía..."></textarea>
-      <button onclick="guardarBiografia()">Guardar biografía</button>
-      <p id="bio-confirmacion" class="fade-in hidden">✅ Biografía actualizada</p>
+      <div class="perfil-detalles">
+        <h2 id="nombre-usuario">Nombre</h2>
+        <p><strong>Correo:</strong> <span id="correo-usuario">-</span></p>
 
-      <p id="puntos-usuario">Puntos: 0 | Nivel: Bronce</p>
-      <div class="insignias" id="insignias-usuario"></div>
+        <label for="bio-input"><strong>Biografía:</strong></label>
+        <textarea id="bio-input" placeholder="Escribe tu biografía..."></textarea>
+        <button onclick="guardarBiografia()">Guardar biografía</button>
+        <p id="bio-confirmacion" class="fade-in hidden">✅ Biografía actualizada</p>
 
+        <p><strong>Intereses:</strong> <span id="intereses-usuario">-</span></p>
+        <p><strong>Puntos:</strong> <span id="puntos-usuario">0</span> | Nivel: <span id="nivel-usuario">Bronce</span></p>
+        <div class="insignias" id="insignias-usuario"></div>
+      </div>
+    </section>
+
+    <section>
       <h3>Historial de preguntas</h3>
       <ul id="historial-preguntas"></ul>
     </section>
@@ -55,8 +69,11 @@
       if (!datos) return;
 
       document.getElementById("nombre-usuario").textContent = datos.usuario;
+      document.getElementById("correo-usuario").textContent = datos.correo || "Sin correo";
       document.getElementById("bio-input").value = datos.bio || "";
-      document.getElementById("puntos-usuario").textContent = `Puntos: ${datos.puntos || 0} | Nivel: ${calcularNivel(datos.puntos)}`;
+      document.getElementById("intereses-usuario").textContent = datos.intereses || "Sin intereses";
+      document.getElementById("puntos-usuario").textContent = datos.puntos || 0;
+      document.getElementById("nivel-usuario").textContent = calcularNivel(datos.puntos);
       document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
       document.getElementById("avatar-usuario").src = `img/usuarios/${datos.usuario}.png`;
       document.getElementById("avatar-usuario").onerror = () => {
