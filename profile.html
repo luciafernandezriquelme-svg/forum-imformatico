@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="profile.css" />
 </head>
 <body>
-  <div class="perfil-container">
-    <img id="avatar" src="default-avatar.png" alt="Avatar" class="avatar" />
-    <h2 id="nombre-usuario">Usuario</h2>
-    <p id="nivel">Nivel: Novato</p>
-    <p id="puntos">Reputación: 0 pts</p>
-    <textarea id="bio" placeholder="Escribe tu biografía..."></textarea>
-    <button onclick="guardarBio()">Guardar biografía</button>
+  <div class="profile-container">
+    <h1>Perfil de Usuario</h1>
+    <div class="profile-info">
+      <p><strong>Nombre de usuario:</strong> <span id="username">user</span></p>
+      <p><strong>Correo:</strong> <span id="email">user@example.com</span></p>
+    </div>
+    <button onclick="logout()">Cerrar sesión</button>
+    <button onclick="navigateTo('login.html')">Volver al login</button>
   </div>
 
   <script src="profile.js"></script>
