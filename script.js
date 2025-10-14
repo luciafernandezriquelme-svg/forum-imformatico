@@ -123,30 +123,45 @@ document.getElementById("avatar-input").addEventListener("change", function () {
 
 // Ejecutar al cargar la página
 window.addEventListener("DOMContentLoaded", cargarPerfil);
-// Cerrar sesión
-document.getElementById("btn-logout").addEventListener("click", function () {
-  sessionStorage.removeItem("usuario");
-  window.location.href = "index.html"; // O "login.html" si tienes una página de login
-});
-
-// Cambiar tema
-document.getElementById("btn-tema").addEventListener("click", function () {
-  const body = document.body;
-  const esOscuro = body.classList.contains("modo-oscuro");
-
-  if (esOscuro) {
-    body.classList.remove("modo-oscuro");
-    body.classList.add("modo-claro");
-    localStorage.setItem("tema", "claro");
-  } else {
-    body.classList.remove("modo-claro");
-    body.classList.add("modo-oscuro");
-    localStorage.setItem("tema", "oscuro");
+document.addEventListener("DOMContentLoaded", () => {
+  // Mostrar bienvenida si hay usuario
+  const usuario = sessionStorage.getItem("usuario");
+  if (usuario) {
+    const bienvenida = document.getElementById("bienvenida");
+    if (bienvenida) {
+      bienvenida.textContent = `Hola, ${usuario}!`;
+    }
   }
-});
 
-// Aplicar tema guardado al cargar
-window.addEventListener("DOMContentLoaded", () => {
+  // Botón cerrar sesión
+  const btnLogout = document.getElementById("btn-logout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      sessionStorage.removeItem("usuario");
+      window.location.href = "index.html"; // O login.html si tienes login
+    });
+  }
+
+  // Botón cambiar tema
+  const btnTema = document.getElementById("btn-tema");
+  if (btnTema) {
+    btnTema.addEventListener("click", () => {
+      const body = document.body;
+      const esOscuro = body.classList.contains("modo-oscuro");
+
+      if (esOscuro) {
+        body.classList.remove("modo-oscuro");
+        body.classList.add("modo-claro");
+        localStorage.setItem("tema", "claro");
+      } else {
+        body.classList.remove("modo-claro");
+        body.classList.add("modo-oscuro");
+        localStorage.setItem("tema", "oscuro");
+      }
+    });
+  }
+
+  // Aplicar tema guardado al cargar
   const temaGuardado = localStorage.getItem("tema");
   if (temaGuardado === "oscuro") {
     document.body.classList.add("modo-oscuro");
@@ -154,5 +169,4 @@ window.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("modo-claro");
   }
 });
-
 
