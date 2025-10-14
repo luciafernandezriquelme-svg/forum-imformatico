@@ -206,3 +206,10 @@ body {
     height: 60px;
   }
 }
+.linea-separadora {
+  border: none;
+  height: 2px;
+  background-color: #3498db;
+  margin: 30px 0;
+  width: 100%;
+}
