@@ -120,3 +120,35 @@ body {
 .ranking li {
   margin-bottom: 5px;
 }
+/* Animación suave para nuevos elementos */
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilo tipo burbuja para mensajes del chat */
+#chat-messages p {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 8px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+/* Sombra sutil para profundidad visual */
+.pregunta,
+.chat-sidebar {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
