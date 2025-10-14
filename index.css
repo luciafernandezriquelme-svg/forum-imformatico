@@ -401,12 +401,18 @@ button {
   background-color: #444;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 body.modo-claro button {
   background-color: #ddd;
   color: #222;
 }
+
+body.modo-oscuro button:hover {
+  background-color: #666;
+}
+
 
 
 
