@@ -28,7 +28,7 @@ Bienvenido al **Foro Informático**, una plataforma web donde los usuarios puede
 ## 📦 Cómo usarlo
 
 1. Accede al sitio publicado:  
-   👉 [Ver foro en GitHub Pages]([(https://luciafernandezriquelme-svg.github.io/forum-imformatico/index.html)])
+  👉 [Ver foro en GitHub Pages](https://luciafernandeznriquelme-svg.github.io/forum-informatico/index.html)
 2. Regístrate con un nombre de usuario y correo
 3. Inicia sesión y comienza a interactuar:
    - Publica preguntas
