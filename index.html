@@ -19,51 +19,55 @@
   </header>
 
   <main class="main-content">
-    <section class="question-form">
-      <h2>Publica tu pregunta</h2>
-      <label for="nombre">Tu nombre</label>
-      <input type="text" id="nombre" placeholder="Tu nombre" required />
+    <div class="columna">
+      <section class="question-form">
+        <h2>Publica tu pregunta</h2>
+        <label for="nombre">Tu nombre</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" required />
 
-      <label for="titulo">Título de la pregunta</label>
-      <input type="text" id="titulo" placeholder="Título de la pregunta" required />
+        <label for="titulo">Título de la pregunta</label>
+        <input type="text" id="titulo" placeholder="Título de la pregunta" required />
 
-      <label for="pregunta">Contenido de la pregunta</label>
-      <textarea id="pregunta" placeholder="Escribe tu pregunta aquí..." required></textarea>
+        <label for="pregunta">Contenido de la pregunta</label>
+        <textarea id="pregunta" placeholder="Escribe tu pregunta aquí..." required></textarea>
 
-      <button id="btn-publicar">Publicar pregunta</button>
-    </section>
+        <button id="btn-publicar">Publicar pregunta</button>
+      </section>
+    </div>
 
-    <!-- Línea vertical -->
     <div class="linea-vertical"></div>
 
-    <section class="preguntas">
-      <h2>📌 Preguntas recientes</h2>
-      <div id="lista-preguntas">
-        <div class="pregunta">
-          <strong>¿Cómo instalo Linux en mi PC?</strong>
-          <p>por Ana</p>
+    <div class="columna">
+      <section class="preguntas">
+        <h2>📌 Preguntas recientes</h2>
+        <div id="lista-preguntas">
+          <div class="pregunta">
+            <strong>¿Cómo instalo Linux en mi PC?</strong>
+            <p>por Ana</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- Línea vertical -->
     <div class="linea-vertical"></div>
 
-    <aside class="chat-sidebar">
-      <h2>💬 Chat con Usuario</h2>
-      <label for="user-select">Selecciona usuario</label>
-      <select id="user-select">
-        <option value="">Selecciona usuario</option>
-        <option value="Ana">Ana</option>
-        <option value="Luis">Luis</option>
-        <option value="Marta">Marta</option>
-        <option value="Pedro">Pedro</option>
-      </select>
+    <div class="columna">
+      <aside class="chat-sidebar">
+        <h2>💬 Chat con Usuario</h2>
+        <label for="user-select">Selecciona usuario</label>
+        <select id="user-select">
+          <option value="">Selecciona usuario</option>
+          <option value="Ana">Ana</option>
+          <option value="Luis">Luis</option>
+          <option value="Marta">Marta</option>
+          <option value="Pedro">Pedro</option>
+        </select>
 
-      <div id="chat-messages"></div>
-      <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
-      <button id="btn-enviar">Enviar</button>
-    </aside>
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." />
+        <button id="btn-enviar">Enviar</button>
+      </aside>
+    </div>
   </main>
 
   <footer class="ranking">
