@@ -16,7 +16,12 @@
     <section class="perfil-usuario">
       <img src="" alt="Avatar" class="avatar-grande" id="avatar-usuario" />
       <h2 id="nombre-usuario">Usuario</h2>
-      <p id="bio-usuario">Biografía del usuario</p>
+
+      <label for="bio-input">Biografía:</label>
+      <textarea id="bio-input" placeholder="Escribe tu biografía..."></textarea>
+      <button onclick="guardarBiografia()">Guardar biografía</button>
+      <p id="bio-confirmacion" class="fade-in hidden">✅ Biografía actualizada</p>
+
       <p id="puntos-usuario">Puntos: 0 | Nivel: Bronce</p>
       <div class="insignias" id="insignias-usuario"></div>
 
@@ -42,17 +47,21 @@
 
     function cargarPerfil() {
       const usuario = sessionStorage.getItem("usuario");
+      if (!usuario) return window.location.href = "login.html";
+
       const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
       const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
-
       const datos = usuarios.find(u => u.usuario === usuario);
       if (!datos) return;
 
       document.getElementById("nombre-usuario").textContent = datos.usuario;
-      document.getElementById("bio-usuario").textContent = datos.bio || "Sin biografía aún.";
+      document.getElementById("bio-input").value = datos.bio || "";
       document.getElementById("puntos-usuario").textContent = `Puntos: ${datos.puntos || 0} | Nivel: ${calcularNivel(datos.puntos)}`;
       document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
       document.getElementById("avatar-usuario").src = `img/usuarios/${datos.usuario}.png`;
+      document.getElementById("avatar-usuario").onerror = () => {
+        document.getElementById("avatar-usuario").src = "img/usuarios/default.png";
+      };
 
       const historial = preguntas.filter(p => p.autor === usuario);
       const lista = document.getElementById("historial-preguntas");
@@ -62,6 +71,20 @@
         li.textContent = `${p.titulo} (${p.respuestas.length} respuestas)`;
         lista.appendChild(li);
       });
+    }
+
+    function guardarBiografia() {
+      const nuevaBio = document.getElementById("bio-input").value.trim();
+      const usuario = sessionStorage.getItem("usuario");
+      const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+      const index = usuarios.findIndex(u => u.usuario === usuario);
+      if (index !== -1) {
+        usuarios[index].bio = nuevaBio;
+        localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
+        const confirmacion = document.getElementById("bio-confirmacion");
+        confirmacion.classList.remove("hidden");
+        setTimeout(() => confirmacion.classList.add("hidden"), 2000);
+      }
     }
 
     window.addEventListener("DOMContentLoaded", cargarPerfil);
