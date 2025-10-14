@@ -330,5 +330,22 @@ body.light-mode #ranking-list li {
   border-radius: 6px;
   margin-bottom: 5px;
 }
+#bio-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2c2c3c;
+  color: white;
+  resize: vertical;
+}
+
+#bio-confirmacion {
+  margin-top: 10px;
+  color: #2ecc71;
+  font-weight: bold;
+}
+
 
 
