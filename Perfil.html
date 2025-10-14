@@ -22,6 +22,7 @@
       <div class="perfil-imagen">
         <img id="avatar-usuario" src="" alt="Avatar del usuario" class="avatar-grande" />
         <p><strong>Foto de perfil</strong></p>
+        <input type="file" id="avatar-input" accept="image/*" />
       </div>
 
       <div class="perfil-detalles">
@@ -89,7 +90,10 @@
       document.getElementById("puntos-usuario").textContent = datos.puntos || 0;
       document.getElementById("nivel-usuario").textContent = calcularNivel(datos.puntos);
       document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
-      document.getElementById("avatar-usuario").src = `img/usuarios/${datos.usuario}.png`;
+
+      // Avatar: base64 > imagen por nombre > default
+      const avatar = datos.avatarBase64 || `img/usuarios/${datos.usuario}.png`;
+      document.getElementById("avatar-usuario").src = avatar;
       document.getElementById("avatar-usuario").onerror = () => {
         document.getElementById("avatar-usuario").src = "img/usuarios/default.png";
       };
@@ -142,6 +146,26 @@
       document.getElementById("password-input").value = "";
       document.getElementById("confirm-password-input").value = "";
     }
+
+    // Subida de imagen personalizada
+    document.getElementById("avatar-input").addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById("avatar-usuario").src = e.target.result;
+
+        const usuario = sessionStorage.getItem("usuario");
+        const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+        const index = usuarios.findIndex(u => u.usuario === usuario);
+        if (index !== -1) {
+          usuarios[index].avatarBase64 = e.target.result;
+          localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
+        }
+      };
+      reader.readAsDataURL(file);
+    });
 
     window.addEventListener("DOMContentLoaded", cargarPerfil);
   </script>
