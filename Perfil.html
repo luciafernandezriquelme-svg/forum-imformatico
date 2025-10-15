@@ -3,210 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil de Usuario</title>
+  <title>Mi Perfil</title>
   <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="profile.css" />
 </head>
 <body>
   <header>
+    <div class="top-bar">
+      <button onclick="window.location.href='index.html'">Volver al foro</button>
+    </div>
     <h1>Perfil de Usuario</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="foro.html">Foro</a></li>
-        <li><a href="comunidad.html">Comunidad</a></li>
-      </ul>
-    </nav>
+    <p id="bienvenida">Hola, Lucia!</p>
   </header>
 
-  <main>
-    <section class="perfil-usuario">
-      <div class="perfil-imagen">
-        <img id="avatar-usuario" src="" alt="Avatar del usuario" class="avatar-grande" />
-        <p><strong>Foto de perfil</strong></p>
-        <input type="file" id="avatar-input" accept="image/*" />
-      </div>
+  <main class="perfil-usuario">
+    <img id="avatar-usuario" class="avatar-grande" src="img/usuarios/default.png" alt="Avatar" />
+    <input type="file" id="avatar-input" />
 
-      <div class="perfil-detalles">
-        <p><strong>Nombre:</strong> <span id="nombre-usuario">-</span></p>
-        <p><strong>Nombre de usuario:</strong> <span id="usuario-id">-</span></p>
-        <p><strong>Correo:</strong> <span id="correo-usuario">-</span></p>
+    <h2 id="nombre-usuario">Lucia</h2>
+    <p id="usuario-id">lucia123</p>
+    <p id="correo-usuario">lucia@email.com</p>
 
-        <label for="bio-input"><strong>Biografía:</strong></label>
-        <textarea id="bio-input" placeholder="Escribe tu biografía..."></textarea>
+    <textarea id="bio-input" placeholder="Cuéntanos algo sobre ti..."></textarea>
+    <textarea id="intereses-input" placeholder="¿Qué te apasiona?"></textarea>
 
-        <label for="intereses-input"><strong>Intereses:</strong></label>
-        <input type="text" id="intereses-input" placeholder="Ej: Programación, Música..." />
+    <p>Puntos: <span id="puntos-usuario">0</span></p>
+    <p>Nivel: <span id="nivel-usuario" class="nivel-usuario nivel-bronce">Bronce</span></p>
+    <div class="barra-nivel"><div class="progreso" id="barra-progreso"></div></div>
 
-        <label for="password-input"><strong>Nueva contraseña:</strong></label>
-        <input type="password" id="password-input" placeholder="Mínimo 6 caracteres" />
+    <p>Insignias: <span id="insignias-usuario" class="insignias"></span></p>
 
-        <label for="confirm-password-input"><strong>Confirmar contraseña:</strong></label>
-        <input type="password" id="confirm-password-input" placeholder="Repite la contraseña" />
+    <input type="password" id="password-input" placeholder="Nueva contraseña" />
+    <input type="password" id="confirm-password-input" placeholder="Confirmar contraseña" />
+    <p id="password-error" class="hidden"></p>
 
-        <p id="password-error" class="fade-in hidden" style="color: #e74c3c;"></p>
+    <button onclick="guardarCambios()">Guardar cambios</button>
+    <p id="confirmacion" class="hidden">Cambios guardados correctamente.</p>
 
-        <button onclick="guardarCambios()">Guardar cambios</button>
-        <p id="confirmacion" class="fade-in hidden">✅ Cambios guardados correctamente</p>
-
-        <p><strong>Puntos:</strong> <span id="puntos-usuario">0</span> | Nivel: <span id="nivel-usuario">Bronce</span></p>
-        <div class="insignias" id="insignias-usuario"></div>
-      </div>
-    </section>
-
-    <section>
-      <h3>Historial de preguntas</h3>
-      <ul id="historial-preguntas"></ul>
-    </section>
-
-    <section>
-      <h3>Mis mensajes de apoyo</h3>
-      <ul id="mis-apoyos"></ul>
-    </section>
-
-    <section>
-      <h3>Mi presentación en la comunidad</h3>
-      <ul id="mi-bienvenida"></ul>
-    </section>
+    <h3>Historial de preguntas</h3>
+    <ul id="historial-preguntas"></ul>
   </main>
 
-  <script>
-    function calcularNivel(puntos) {
-      if (puntos >= 100) return "Oro";
-      if (puntos >= 50) return "Plata";
-      return "Bronce";
-    }
-
-    function generarInsignias(datos) {
-      let html = "";
-      if (datos.puntos >= 10) html += "🎯 ";
-      if (datos.respuestas >= 10) html += "💬 ";
-      if (datos.top3) html += "🏆 ";
-      return html;
-    }
-
-    function cargarPerfil() {
-      const usuario = sessionStorage.getItem("usuario");
-      if (!usuario) return window.location.href = "login.html";
-
-      const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-      const preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
-      const datos = usuarios.find(u => u.usuario === usuario);
-      if (!datos) return;
-
-      document.getElementById("nombre-usuario").textContent = datos.nombre || datos.usuario;
-      document.getElementById("usuario-id").textContent = datos.usuario;
-      document.getElementById("correo-usuario").textContent = datos.correo || "Sin correo";
-      document.getElementById("bio-input").value = datos.bio || "";
-      document.getElementById("intereses-input").value = datos.intereses || "";
-      document.getElementById("puntos-usuario").textContent = datos.puntos || 0;
-      document.getElementById("nivel-usuario").textContent = calcularNivel(datos.puntos);
-      document.getElementById("insignias-usuario").innerHTML = generarInsignias(datos);
-
-      const avatar = datos.avatarBase64 || `img/usuarios/${datos.usuario}.png`;
-      document.getElementById("avatar-usuario").src = avatar;
-      document.getElementById("avatar-usuario").onerror = () => {
-        document.getElementById("avatar-usuario").src = "img/usuarios/default.png";
-      };
-
-      const historial = preguntas.filter(p => p.autor === usuario);
-      const lista = document.getElementById("historial-preguntas");
-      lista.innerHTML = "";
-      historial.forEach(p => {
-        const li = document.createElement("li");
-        li.textContent = `${p.titulo} (${p.respuestas.length} respuestas)`;
-        lista.appendChild(li);
-      });
-    }
-
-    function guardarCambios() {
-      const usuario = sessionStorage.getItem("usuario");
-      const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-      const index = usuarios.findIndex(u => u.usuario === usuario);
-      if (index === -1) return;
-
-      usuarios[index].bio = document.getElementById("bio-input").value.trim();
-      usuarios[index].intereses = document.getElementById("intereses-input").value.trim();
-
-      const nuevaPass = document.getElementById("password-input").value.trim();
-      const confirmPass = document.getElementById("confirm-password-input").value.trim();
-      const errorMsg = document.getElementById("password-error");
-      errorMsg.classList.add("hidden");
-      errorMsg.textContent = "";
-
-      if (nuevaPass || confirmPass) {
-        if (nuevaPass.length < 6) {
-          errorMsg.textContent = "La contraseña debe tener al menos 6 caracteres.";
-          errorMsg.classList.remove("hidden");
-          return;
-        }
-        if (nuevaPass !== confirmPass) {
-          errorMsg.textContent = "Las contraseñas no coinciden.";
-          errorMsg.classList.remove("hidden");
-          return;
-        }
-        usuarios[index].contraseña = nuevaPass;
-      }
-
-      localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
-
-      const confirmacion = document.getElementById("confirmacion");
-      confirmacion.classList.remove("hidden");
-      setTimeout(() => confirmacion.classList.add("hidden"), 2000);
-
-      document.getElementById("password-input").value = "";
-      document.getElementById("confirm-password-input").value = "";
-    }
-
-    document.getElementById("avatar-input").addEventListener("change", function () {
-      const file = this.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById("avatar-usuario").src = e.target.result;
-
-        const usuario = sessionStorage.getItem("usuario");
-        const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-        const index = usuarios.findIndex(u => u.usuario === usuario);
-        if (index !== -1) {
-          usuarios[index].avatarBase64 = e.target.result;
-          localStorage.setItem("usuariosRegistrados", JSON.stringify(usuarios));
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-
-    function cargarMensajesComunidad() {
-      const usuario = sessionStorage.getItem("usuario");
-
-      const apoyos = JSON.parse(localStorage.getItem("mensajesApoyo")) || [];
-      const misApoyos = apoyos.filter(a => a.autor === usuario);
-      const listaApoyos = document.getElementById("mis-apoyos");
-      listaApoyos.innerHTML = "";
-      misApoyos.slice().reverse().forEach(a => {
-        const li = document.createElement("li");
-        li.textContent = a.mensaje;
-        listaApoyos.appendChild(li);
-      });
-
-      const bienvenidas = JSON.parse(localStorage.getItem("mensajesBienvenida")) || [];
-      const miBienvenida = bienvenidas.filter(b => b.autor === usuario);
-      const listaBienvenida = document.getElementById("mi-bienvenida");
-      listaBienvenida.innerHTML = "";
-      miBienvenida.slice().reverse().forEach(b => {
-        const li = document.createElement("li");
-        li   const li = document.createElement("li");
-        li.textContent = b.mensaje;
-        listaBienvenida.appendChild(li);
-      });
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      cargarPerfil();
-      cargarMensajesComunidad();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
-
 
