@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Foro Informático</title>
-  <link rel="stylesheet" href="estilos.css" />
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
   <header>
     <div class="top-bar">
       <button id="btn-tema">Cambiar tema</button>
       <button id="btn-logout">Cerrar sesión</button>
-      <button onclick="window.location.href='Perfil.html'">Ver mi perfil</button>
+      <button onclick="window.location.href='perfil.html'">Ver mi perfil</button>
       <button onclick="window.location.href='comunidad.html'">Ir a la comunidad</button>
     </div>
     <h1>Foro Informático</h1>
@@ -26,16 +26,16 @@
   </header>
 
   <main class="contenedor">
-    <!-- Publicar pregunta -->
-    <section class="columna">
+    <!-- Columna izquierda -->
+    <section class="columna izquierda">
       <h2>Publica tu pregunta</h2>
       <input type="text" id="titulo" placeholder="Título de la pregunta" />
       <textarea id="pregunta" placeholder="Contenido..."></textarea>
       <button id="btn-publicar">Publicar pregunta</button>
     </section>
 
-    <!-- Preguntas recientes -->
-    <section class="columna">
+    <!-- Columna central -->
+    <section class="columna central">
       <h2>Preguntas recientes</h2>
       <input type="text" id="buscador" placeholder="Buscar preguntas..." />
       <div id="lista-preguntas">
@@ -43,8 +43,8 @@
       </div>
     </section>
 
-    <!-- Chat privado -->
-    <section class="columna">
+    <!-- Columna derecha -->
+    <section class="columna derecha">
       <h2>Chat privado</h2>
       <select id="user-select">
         <option value="">Selecciona usuario</option>
@@ -58,39 +58,6 @@
     </section>
   </main>
 
-  <!-- Perfil editable -->
-  <section class="perfil-usuario">
-    <img id="avatar-usuario" class="avatar-grande" src="img/usuarios/default.png" alt="Avatar" />
-    <input type="file" id="avatar-input" />
-    <h2 id="nombre-usuario">Lucia</h2>
-    <p id="usuario-id">lucia123</p>
-    <p id="correo-usuario">lucia@email.com</p>
-    <textarea id="bio-input" placeholder="Tu biografía..."></textarea>
-    <textarea id="intereses-input" placeholder="Tus intereses..."></textarea>
-    <p>Puntos: <span id="puntos-usuario">0</span></p>
-    <p>Nivel: <span id="nivel-usuario" class="nivel-usuario nivel-bronce">Bronce</span></p>
-    <p>Insignias: <span id="insignias-usuario" class="insignias"></span></p>
-    <input type="password" id="password-input" placeholder="Nueva contraseña" />
-    <input type="password" id="confirm-password-input" placeholder="Confirmar contraseña" />
-    <p id="password-error" class="hidden"></p>
-    <button onclick="guardarCambios()">Guardar cambios</button>
-    <p id="confirmacion" class="hidden">Cambios guardados correctamente.</p>
-    <ul id="historial-preguntas"></ul>
-  </section>
-
-  <!-- Módulos emocionales -->
-  <section class="modo-apoyo">
-    <h2>Modo de Apoyo</h2>
-    <textarea placeholder="¿Cómo te sientes hoy?"></textarea>
-    <button>Enviar mensaje de apoyo</button>
-  </section>
-
-  <section class="rincon-bienvenida">
-    <h2>Rincón de Bienvenida</h2>
-    <textarea placeholder="Preséntate a la comunidad..."></textarea>
-    <button>Publicar presentación</button>
-  </section>
-
   <footer>
     <h2>Ranking de usuarios</h2>
     <ul id="ranking-list"></ul>
@@ -99,3 +66,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
