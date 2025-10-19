@@ -3,29 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Perfil</title>
- <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/perfil.css">
+  <title>Mi Perfil - Foro Informático</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/perfil.css" />
 </head>
 <body>
-  <div class="fondo-overlay"></div>
   <header>
-    <h1>👤 Mi Perfil</h1>
-    <nav>
+    <h1 class="perfil-titulo">👤 Mi Perfil</h1>
+    <p class="perfil-subtitulo">Bienvenida, Lucia. Este es tu espacio personal.</p>
+    <nav class="perfil-nav">
       <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="index.html">🔙 Inicio</a></li>
+        <li><a href="comunidad.html">🌐 Comunidad</a></li>
+        <li><a href="foro.html">💬 Foro</a></li>
       </ul>
     </nav>
   </header>
+
   <main>
-    <section class="perfil-usuario">
-      <img src="../img/avatars/default.png" alt="Avatar" class="avatar-grande" />
-      <p id="bienvenida">Hola, usuario!</p>
+    <section class="perfil-card">
+      <img src="img/avatar.png" alt="Avatar" class="avatar" />
+      <h2 class="nombre-usuario">🌙 Buenas noches, Lucia!</h2>
+      <p class="descripcion">
+        Fundadora del foro. Apasionada por la informática, la comunidad y el diseño emocional.
+      </p>
     </section>
+
+    <div class="acciones-perfil">
+      <a href="editar-perfil.html" class="boton">✏️ Editar perfil</a>
+      <a href="foro.html" class="boton">💬 Volver al foro</a>
+    </div>
   </main>
 
-  <script src="../js/script.js"></script>
-  <script src="../js/profile.js"></script>
+  <footer class="pie">
+    <p>&copy; 2025 Foro Informático. Creado por Lucia.</p>
+  </footer>
 </body>
 </html>
+
