@@ -117,4 +117,3 @@ document.querySelectorAll("#emoji-panel span").forEach(e => {
     input.focus();
   });
 });
-
