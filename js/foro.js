@@ -1,5 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Publicar pregunta
+  // 🌤 Saludo personalizado con animación tipo máquina de escribir
+  function saludoPersonalizado() {
+    const hora = new Date().getHours();
+    let mensaje = "👋 ¡Hola, Lucia!";
+    if (hora < 12) mensaje = "🌞 Buenos días, Lucia!";
+    else if (hora < 18) mensaje = "🌤 Buenas tardes, Lucia!";
+    else mensaje = "🌙 Buenas noches, Lucia!";
+
+    const destino = document.getElementById("texto-saludo");
+    let i = 0;
+    const escribir = () => {
+      if (i < mensaje.length) {
+        destino.textContent += mensaje.charAt(i);
+        i++;
+        setTimeout(escribir, 100);
+      }
+    };
+    escribir();
+  }
+
+  saludoPersonalizado();
+
+  // 📝 Publicar pregunta
   document.querySelector('.pregunta button').addEventListener('click', () => {
     const titulo = document.querySelector('.pregunta input').value.trim();
     const contenido = document.querySelector('.pregunta textarea').value.trim();
@@ -12,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Enviar mensaje privado
+  // 💬 Enviar mensaje privado
   document.querySelector('.chat button').addEventListener('click', () => {
     const usuario = document.querySelector('.chat select').value;
     const mensaje = document.querySelector('.chat textarea').value.trim();
@@ -22,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Cambiar tema (claro/oscuro)
+  // 🎨 Cambiar tema (claro/oscuro)
   window.cambiarTema = function () {
     const body = document.body;
     if (body.style.backgroundColor === 'white') {
@@ -34,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Cerrar sesión (simulado)
+  // 🚪 Cerrar sesión (simulado)
   window.cerrarSesion = function () {
     alert('Sesión cerrada. Redirigiendo al inicio...');
     window.location.href = 'index.html';
