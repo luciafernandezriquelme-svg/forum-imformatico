@@ -1,13 +1,15 @@
 // Publicar mensaje de apoyo
 function publicarApoyo() {
   const usuario = sessionStorage.getItem("usuario") || "Anónimo";
-  const mensaje = document.getElementById("mensaje-apoyo").value.trim();
+  const mensajeInput = document.getElementById("mensaje-apoyo");
+  const mensaje = mensajeInput?.value.trim();
   if (!mensaje) return;
 
   const apoyos = JSON.parse(localStorage.getItem("mensajesApoyo")) || [];
   apoyos.push({ autor: usuario, mensaje, fecha: new Date().toISOString() });
   localStorage.setItem("mensajesApoyo", JSON.stringify(apoyos));
-  document.getElementById("mensaje-apoyo").value = "";
+
+  mensajeInput.value = "";
   cargarMensajesApoyo();
 }
 
@@ -16,10 +18,11 @@ function cargarMensajesApoyo() {
   const apoyos = JSON.parse(localStorage.getItem("mensajesApoyo")) || [];
   const lista = document.getElementById("lista-apoyo");
   if (!lista) return;
+
   lista.innerHTML = "";
-  apoyos.slice().reverse().forEach(a => {
+  apoyos.slice().reverse().forEach(({ autor, mensaje }) => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${a.autor}</strong>: ${a.mensaje}`;
+    li.innerHTML = `<strong>${autor}</strong>: ${mensaje}`;
     lista.appendChild(li);
   });
 }
@@ -27,13 +30,15 @@ function cargarMensajesApoyo() {
 // Publicar presentación en Rincón de Bienvenida
 function publicarBienvenida() {
   const usuario = sessionStorage.getItem("usuario") || "Anónimo";
-  const mensaje = document.getElementById("mensaje-bienvenida").value.trim();
+  const mensajeInput = document.getElementById("mensaje-bienvenida");
+  const mensaje = mensajeInput?.value.trim();
   if (!mensaje) return;
 
   const bienvenidas = JSON.parse(localStorage.getItem("mensajesBienvenida")) || [];
   bienvenidas.push({ autor: usuario, mensaje, fecha: new Date().toISOString() });
   localStorage.setItem("mensajesBienvenida", JSON.stringify(bienvenidas));
-  document.getElementById("mensaje-bienvenida").value = "";
+
+  mensajeInput.value = "";
   cargarMensajesBienvenida();
 }
 
@@ -42,17 +47,18 @@ function cargarMensajesBienvenida() {
   const bienvenidas = JSON.parse(localStorage.getItem("mensajesBienvenida")) || [];
   const lista = document.getElementById("lista-bienvenida");
   if (!lista) return;
+
   lista.innerHTML = "";
-  bienvenidas.slice().reverse().forEach(b => {
+  bienvenidas.slice().reverse().forEach(({ autor, mensaje }) => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${b.autor}</strong>: ${b.mensaje}`;
+    li.innerHTML = `<strong>${autor}</strong>: ${mensaje}`;
     lista.appendChild(li);
   });
 }
 
 // Mostrar contador de miembros activos
 function mostrarContadorMiembros() {
-  const miembros = localStorage.getItem("miembrosActivos") || 128;
+  const miembros = localStorage.getItem("miembrosActivos") || "128";
   const contador = document.getElementById("miembrosActivos");
   if (contador) {
     contador.textContent = miembros;
@@ -65,3 +71,5 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarMensajesBienvenida();
   mostrarContadorMiembros();
 });
+
+
