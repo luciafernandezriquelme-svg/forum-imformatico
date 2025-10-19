@@ -1,0 +1,16 @@
+/* Fondo azul base para todas las páginas excepto registro */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  background-color: #0a3d62;
+  background-image: none;
+  position: relative;
+}
+
+.fondo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
