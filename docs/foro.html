@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foro Informático</title>
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/foro.css" />
+</head>
+<body>
+  <div class="fondo-overlay"></div>
+
+  <header>
+    <h1>💻 Foro Informático</h1>
+    <nav>
+      <ul>
+        <li><button onclick="cambiarTema()">Cambiar tema</button></li>
+        <li><button onclick="cerrarSesion()">Cerrar sesión</button></li>
+        <li><a href="perfil.html">Ver mi perfil</a></li>
+        <li><a href="comunidad.html">Ir a la comunidad</a></li>
+      </ul>
+    </nav>
+    <p>Hola, Lucia!</p>
+  </header>
+
+  <main class="foro-container">
+    <section class="intro">
+      <h2>¡Haz preguntas y responde sobre cualquier tema de informática!</h2>
+      <div class="categorias">
+        <button>Hardware</button>
+        <button>Programación</button>
+        <button>Inteligencia Artificial</button>
+        <button>Redes</button>
+      </div>
+    </section>
+
+    <section class="paneles">
+      <div class="panel pregunta">
+        <h3>📝 Publica tu pregunta</h3>
+        <input type="text" placeholder="Título de la pregunta" />
+        <textarea placeholder="Contenido..."></textarea>
+        <button>Publicar pregunta</button>
+      </div>
+
+      <div class="panel recientes">
+        <h3>📌 Preguntas recientes</h3>
+        <ul>
+          <li><strong>HTML</strong> por <em>undefined</em> — ¿Cómo se puede coger y poner un título en HTML? <button>Responder</button></li>
+          <li><strong>HTML</strong> por <em>Lucia</em> — ¿Cómo se puede coger y poner un título en HTML? <button>Responder</button></li>
+        </ul>
+      </div>
+
+      <div class="panel chat">
+        <h3>💬 Chat privado</h3>
+        <select>
+          <option>Seleccione usuario</option>
+        </select>
+        <textarea placeholder="Escribe tu mensaje..."></textarea>
+        <div class="emojis">😊 😍 😢 ❤️ 🔥</div>
+        <button>Enviar</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/foro.js"></script>
+</body>
+</html>
+
