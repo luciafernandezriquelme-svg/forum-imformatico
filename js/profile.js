@@ -1,3 +1,4 @@
+// Determinar nivel según puntos
 function obtenerNivel(puntos) {
   if (puntos >= 1000) return "Leyenda";
   if (puntos >= 500) return "Experto";
@@ -5,27 +6,34 @@ function obtenerNivel(puntos) {
   return "Novato";
 }
 
+// Cargar datos del perfil al iniciar la página
 function cargarPerfil() {
-  const usuario = localStorage.getItem("usuarioActivo");
+  const usuarioActivo = localStorage.getItem("usuarioActivo");
   const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-  const datos = usuarios.find(u => u.usuario === usuario);
+  const datos = usuarios.find(u => u.usuario === usuarioActivo);
 
-  if (datos) {
-    document.getElementById("nombre-usuario").textContent = datos.usuario;
-    document.getElementById("puntos").textContent = `Reputación: ${datos.puntos || 0} pts`;
-    document.getElementById("nivel").textContent = `Nivel: ${obtenerNivel(datos.puntos || 0)}`;
-    document.getElementById("bio").value = datos.bio || "";
-    if (datos.avatar) {
-      document.getElementById("avatar").src = datos.avatar;
-    }
-  }
+  if (!datos) return;
+
+  const nombreUsuario = document.getElementById("nombre-usuario");
+  const puntos = document.getElementById("puntos");
+  const nivel = document.getElementById("nivel");
+  const bio = document.getElementById("bio");
+  const avatar = document.getElementById("avatar");
+
+  if (nombreUsuario) nombreUsuario.textContent = datos.usuario;
+  if (puntos) puntos.textContent = `Reputación: ${datos.puntos || 0} pts`;
+  if (nivel) nivel.textContent = `Nivel: ${obtenerNivel(datos.puntos || 0)}`;
+  if (bio) bio.value = datos.bio || "";
+  if (avatar && datos.avatar) avatar.src = datos.avatar;
 }
 
+// Guardar biografía actualizada
 function guardarBio() {
-  const nuevaBio = document.getElementById("bio").value.trim();
-  const usuario = localStorage.getItem("usuarioActivo");
+  const bioInput = document.getElementById("bio");
+  const nuevaBio = bioInput?.value.trim();
+  const usuarioActivo = localStorage.getItem("usuarioActivo");
   const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-  const index = usuarios.findIndex(u => u.usuario === usuario);
+  const index = usuarios.findIndex(u => u.usuario === usuarioActivo);
 
   if (index !== -1) {
     usuarios[index].bio = nuevaBio;
@@ -34,4 +42,7 @@ function guardarBio() {
   }
 }
 
+// Inicializar perfil al cargar la página
 window.addEventListener("DOMContentLoaded", cargarPerfil);
+
+
