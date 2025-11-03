@@ -1,8 +1,8 @@
 .comunidad {
   padding: 40px 20px;
-  background: linear-gradient(to bottom, #fefefe, #f3f3ff);
+  background: linear-gradient(to bottom right, #b0b0b0, #dcdcdc);
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(120, 120, 200, 0.1);
+  box-shadow: 0 0 10px rgba(80, 80, 80, 0.2);
   animation: fadeIn 1s ease-in;
 }
 
