@@ -106,3 +106,22 @@
   font-size: 1.1em;
   color: #444;
 }
+.botones-comunidad {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-comunidad {
+  background-color: #4e54c8;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comunidad:hover {
+  background-color: #6c70e5;
+}
